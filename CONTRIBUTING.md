@@ -5,8 +5,11 @@ metadata, one shared skill, client docs, and security-focused setup examples.
 
 ## Ground Rules
 
-- Keep v1 dependency-free: no package manager, custom proxy, SDK wrapper, or build step unless a
-  future change explicitly needs it.
+- Be respectful — see [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
+- Keep the plugin atomic: runtime code must use only the Python standard library, with no network
+  access and no third-party install step. The Python standard library is considered atomic for this
+  repo; stdlib-only scripts do not require dependency management. PyYAML may be used
+  opportunistically, but a stdlib fallback must remain.
 - Never commit Noru API keys, bearer tokens, customer identifiers, generated customer configs, logs,
   or captured customer output.
 - Use placeholders such as `<NORU_API_KEY>` and `${NORU_API_KEY}` in examples.
