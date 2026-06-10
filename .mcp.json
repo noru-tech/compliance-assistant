@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "noru": {
+      "type": "http",
+      "url": "https://api.noru.tech/v1/mcp",
+      "note": "Configure bearer authentication in your MCP client with NORU_API_KEY. Do not commit API keys or generated local configs containing secrets."
+    }
+  }
+}
