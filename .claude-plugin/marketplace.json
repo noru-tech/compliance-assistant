@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "compliance-assistant",
-      "source": "./",
+      "source": "./plugins/compliance-assistant",
       "description": "Guide Noru customers through compliance workflows using Noru's remote MCP server.",
       "version": "0.1.0",
       "license": "MIT",

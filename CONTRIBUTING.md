@@ -18,9 +18,10 @@ metadata, one shared skill, client docs, and security-focused setup examples.
 
 ## Project Layout
 
-- `.codex-plugin/` contains Codex plugin metadata.
-- `.claude-plugin/` contains Claude Code plugin and marketplace metadata.
-- `skills/compliance-assistant/SKILL.md` contains the shared assistant workflow.
+- `.agents/plugins/marketplace.json` contains the Codex marketplace entry.
+- `.claude-plugin/marketplace.json` contains the Claude Code marketplace entry.
+- `plugins/compliance-assistant/` contains the installable plugin payload.
+- `plugins/compliance-assistant/skills/compliance-assistant/SKILL.md` contains the shared assistant workflow.
 - `clients/` contains setup docs for MCP clients.
 
 ## Verification

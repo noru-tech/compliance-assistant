@@ -1,0 +1,20 @@
+{
+  "name": "compliance-assistant",
+  "interface": {
+    "displayName": "Noru Compliance Assistant"
+  },
+  "plugins": [
+    {
+      "name": "compliance-assistant",
+      "source": {
+        "source": "local",
+        "path": "./plugins/compliance-assistant"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

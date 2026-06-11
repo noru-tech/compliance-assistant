@@ -20,8 +20,9 @@ the next best sequence of controls, policies, evidence, risks, and roadmap work.
 ## What You Get
 
 - A shared `compliance-assistant` skill for compliance sequencing and safe Noru MCP usage.
-- Codex plugin metadata under `.codex-plugin/`.
-- Claude Code plugin and marketplace metadata under `.claude-plugin/`.
+- Codex marketplace metadata under `.agents/plugins/marketplace.json`.
+- Codex and Claude Code plugin metadata under `plugins/compliance-assistant/`.
+- Claude Code marketplace metadata under `.claude-plugin/`.
 - Client setup guides for Codex, Claude Code/Desktop, Cursor, and generic MCP clients.
 - A minimal configuration model: customers provide only `NORU_API_KEY` for the default hosted setup.
 
@@ -70,19 +71,26 @@ policies, changing control status, creating or linking evidence, or updating ris
 
 ```text
 compliance-assistant/
-├── .codex-plugin/
-│   └── plugin.json
+├── .agents/
+│   └── plugins/
+│       └── marketplace.json       # Codex marketplace
 ├── .claude-plugin/
-│   ├── plugin.json
-│   └── marketplace.json
+│   └── marketplace.json           # Claude Code marketplace
 ├── clients/
 │   ├── codex.md
 │   ├── claude.md
 │   ├── cursor.md
 │   └── generic-mcp.md
-├── skills/
+├── plugins/
 │   └── compliance-assistant/
-│       └── SKILL.md
+│       ├── .codex-plugin/
+│       │   └── plugin.json
+│       ├── .claude-plugin/
+│       │   └── plugin.json
+│       ├── .mcp.json
+│       └── skills/
+│           └── compliance-assistant/
+│               └── SKILL.md
 ├── .env.example
 ├── README.md
 ├── LICENSE
@@ -105,7 +113,12 @@ Then configure Noru MCP using [the Claude guide](./clients/claude.md).
 
 ### Codex
 
-Install the repo as a Codex plugin, then configure Noru MCP using [the Codex guide](./clients/codex.md).
+```bash
+codex plugin marketplace add noru-tech/compliance-assistant
+codex plugin add compliance-assistant@compliance-assistant
+```
+
+Then configure Noru MCP using [the Codex guide](./clients/codex.md).
 
 ## Security
 

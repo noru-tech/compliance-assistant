@@ -1,7 +1,7 @@
 # Codex Setup
 
-The Codex plugin metadata lives in `.codex-plugin/plugin.json`, and the shared skill lives in
-`skills/compliance-assistant/SKILL.md`.
+The Codex marketplace metadata lives in `.agents/plugins/marketplace.json`. The installable plugin
+payload lives in `plugins/compliance-assistant/`.
 
 ## Requirements
 
@@ -11,8 +11,21 @@ The Codex plugin metadata lives in `.codex-plugin/plugin.json`, and the shared s
 
 ## Recommended Setup
 
-Use the committed `.mcp.json` for the public endpoint, then configure bearer authentication in your
-local Codex MCP settings:
+Install from the repo marketplace:
+
+```bash
+codex plugin marketplace add noru-tech/compliance-assistant
+codex plugin add compliance-assistant@compliance-assistant
+```
+
+For local branch testing, add the local checkout instead:
+
+```bash
+codex plugin marketplace add <path-to-compliance-assistant-checkout>
+codex plugin add compliance-assistant@compliance-assistant
+```
+
+Then configure bearer authentication in your local Codex MCP settings:
 
 ```bash
 export NORU_API_KEY="<your_noru_api_key>"

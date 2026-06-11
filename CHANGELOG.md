@@ -11,8 +11,9 @@ All notable changes to this project are documented here. The format is based on
 ### Added
 
 - Initial public plugin scaffold for `compliance-assistant`.
-- Codex plugin metadata under `.codex-plugin/`.
-- Claude Code plugin and self-referential marketplace metadata under `.claude-plugin/`.
+- Codex marketplace metadata under `.agents/plugins/marketplace.json`.
+- Installable plugin payload under `plugins/compliance-assistant/`.
+- Claude Code plugin and marketplace metadata.
 - Shared `compliance-assistant` skill for guided Noru compliance workflows.
 - Client setup docs for Codex, Claude, Cursor, and generic MCP clients.
 - Public repo hygiene files and placeholder-only environment example.
