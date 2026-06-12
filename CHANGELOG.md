@@ -6,6 +6,11 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+### Changed
+
+- Clarified that Noru MCP authentication is managed by each MCP host or client.
+- Documented OAuth as the preferred option where supported, with API keys for manual/headless setup.
+
 ## [0.1.0] - 2026-06-10
 
 ### Added

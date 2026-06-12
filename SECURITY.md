@@ -25,17 +25,19 @@ We aim to acknowledge reports within 5 business days and provide a remediation t
 This repo is public. Do not commit:
 
 - Noru API keys or bearer tokens.
+- OAuth access tokens, refresh tokens, authorization codes, or client secrets.
 - Customer identifiers, organization names, audit evidence, logs, or screenshots.
 - Local MCP client configs that inline secrets.
 - Tool outputs captured from real customer organizations.
 
-Use `NORU_API_KEY` locally and grant the least-privilege scopes needed for the workflow. Prefer
-read-only scopes for guidance-only usage, and add write scopes only when users intentionally want the
-assistant to perform actions.
+Authentication is managed by the MCP host or client. Use OAuth where the client supports it, or use
+`NORU_API_KEY` locally for manual/headless setup. Grant the least-privilege scopes needed for the
+workflow. Prefer read-only scopes for guidance-only usage, and add write scopes only when users
+intentionally want the assistant to perform actions.
 
 ## Threat Model
 
-The plugin connects local AI clients to Noru's hosted MCP endpoint. The primary risks are leaked API
-keys, over-broad API key scopes, accidental writes through MCP tools, and disclosure of customer
-compliance data in logs or examples. The skill therefore requires explicit confirmation before
-write-like actions and documents least-privilege scope usage.
+The plugin connects local AI clients to Noru's hosted MCP endpoint. The primary risks are leaked
+OAuth tokens or API keys, over-broad scopes, accidental writes through MCP tools, and disclosure of
+customer compliance data in logs or examples. The skill therefore requires explicit confirmation
+before write-like actions and documents least-privilege scope usage.

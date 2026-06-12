@@ -18,14 +18,19 @@ The MCP server is named `noru` and points at Noru's hosted Streamable HTTP endpo
 https://api.noru.tech/v1/mcp
 ```
 
-Authentication uses:
+Authentication is managed by the MCP host or client. The plugin does not store credentials or perform
+sign-in. If the current host already has an authenticated `noru` connection, use it. Do not assume an
+MCP connection configured in another host, such as ChatGPT, is available here.
+
+Noru MCP supports OAuth access tokens and Noru API keys as bearer credentials:
 
 ```text
-Authorization: Bearer <NORU_API_KEY>
+Authorization: Bearer <access_token_or_api_key>
 ```
 
-If MCP is not connected or auth fails, tell the user to configure `NORU_API_KEY` and continue only
-with generic setup guidance.
+If MCP is not connected or auth fails, tell the user to authenticate the `noru` MCP server in their
+current client. Recommend OAuth when the client supports OAuth for remote MCP servers, or a Noru API
+key for manual/headless setup. Do not ask the user to paste OAuth tokens or API keys into chat.
 
 ## Default Discovery
 
@@ -97,4 +102,4 @@ the granted scopes.
 - Separate "what Noru data says" from "recommended next step".
 - Highlight blockers before nice-to-have work.
 - Keep write actions opt-in and reversible where possible.
-- Never expose or repeat API keys, bearer tokens, or customer secrets.
+- Never expose or repeat OAuth tokens, API keys, bearer tokens, or customer secrets.

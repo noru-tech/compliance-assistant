@@ -171,6 +171,8 @@ def validate_mcp(errors: list[str]) -> None:
             require(noru.get("type") == "http", "noru MCP server type must be http", errors)
             require(noru.get("url") == "https://api.noru.tech/v1/mcp", "noru MCP server URL must be production endpoint", errors)
             require("headers" not in noru, "committed .mcp.json must not inline auth headers", errors)
+            note = noru.get("note", "")
+            require("OAuth" in note and "NORU_API_KEY" in note, ".mcp.json note must document OAuth and API-key auth options", errors)
 
 
 def validate_env_example(errors: list[str]) -> None:

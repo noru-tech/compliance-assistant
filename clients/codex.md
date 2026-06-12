@@ -6,8 +6,8 @@ payload lives in `plugins/compliance-assistant/`.
 ## Requirements
 
 - Codex with plugin support.
-- A Noru API key with the scopes needed for your workflow.
-- `NORU_API_KEY` available only in your local environment or private MCP client configuration.
+- An authenticated Noru MCP connection in Codex, using OAuth where supported or a Noru API key for
+  manual/headless setup.
 
 ## Recommended Setup
 
@@ -25,7 +25,14 @@ codex plugin marketplace add <path-to-compliance-assistant-checkout>
 codex plugin add compliance-assistant@compliance-assistant
 ```
 
-Then configure bearer authentication in your local Codex MCP settings:
+## Authentication
+
+Plugin installation does not sign in to Noru or store credentials. Codex manages MCP authentication
+for the `noru` server outside the plugin payload. If Codex already has an authenticated `noru`
+connection, the installed skill can use it.
+
+For a new connection, use OAuth if your Codex build supports OAuth for remote MCP servers. Otherwise,
+configure bearer authentication in your local Codex MCP settings with a Noru API key:
 
 ```bash
 export NORU_API_KEY="<your_noru_api_key>"
@@ -43,13 +50,14 @@ The MCP endpoint is:
 https://api.noru.tech/v1/mcp
 ```
 
-Use the header:
+API-key setup uses the header:
 
 ```text
 Authorization: Bearer <NORU_API_KEY>
 ```
 
-Do not commit local Codex configuration files that contain the resolved bearer token.
+Do not paste OAuth tokens or API keys into assistant chat. Do not commit local Codex configuration
+files that contain resolved credentials.
 
 ## First Prompt
 
