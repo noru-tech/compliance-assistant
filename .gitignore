@@ -1,0 +1,42 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.secret
+*.secret.*
+*.pem
+*.key
+
+# Local MCP/client configuration that may contain secrets
+.mcp.local.json
+*.mcp.local.json
+claude_desktop_config.json
+.cursor/
+.claude/
+.codex-local/
+
+# Logs and generated output
+logs/
+*.log
+*.out
+*.err
+customer-output/
+generated-output/
+
+# Scratch and caches
+.tmp/
+.cache/
+tmp/
+temp/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

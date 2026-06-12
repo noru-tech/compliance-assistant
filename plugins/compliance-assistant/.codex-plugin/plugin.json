@@ -1,0 +1,41 @@
+{
+  "name": "compliance-assistant",
+  "version": "0.1.0",
+  "description": "Guide Noru customers through compliance workflows using Noru's remote MCP server.",
+  "author": {
+    "name": "Noru",
+    "email": "support@noru.tech",
+    "url": "https://noru.tech"
+  },
+  "homepage": "https://github.com/noru-tech/compliance-assistant",
+  "repository": "https://github.com/noru-tech/compliance-assistant",
+  "license": "MIT",
+  "keywords": [
+    "noru",
+    "compliance",
+    "mcp",
+    "controls",
+    "evidence",
+    "risk",
+    "policies",
+    "audit"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Noru Compliance Assistant",
+    "shortDescription": "Plan and progress compliance work with Noru MCP.",
+    "longDescription": "Noru Compliance Assistant guides customers through framework readiness using live organization, framework, control, policy, evidence, and risk context from Noru MCP.",
+    "developerName": "Noru",
+    "category": "Productivity",
+    "capabilities": [
+      "Compliance sequencing",
+      "Framework gap analysis",
+      "Control and evidence guidance",
+      "Policy and risk review",
+      "Opt-in write actions"
+    ],
+    "websiteURL": "https://noru.tech",
+    "defaultPrompt": "Help me become compliant with SOC 2 using Noru."
+  }
+}

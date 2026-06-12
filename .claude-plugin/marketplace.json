@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "compliance-assistant",
+  "owner": {
+    "name": "Noru",
+    "email": "support@noru.tech"
+  },
+  "description": "A marketplace for the Noru Compliance Assistant plugin.",
+  "plugins": [
+    {
+      "name": "compliance-assistant",
+      "source": "./plugins/compliance-assistant",
+      "description": "Guide Noru customers through compliance workflows using Noru's remote MCP server.",
+      "version": "0.1.0",
+      "license": "MIT",
+      "category": "compliance",
+      "keywords": [
+        "noru",
+        "compliance",
+        "mcp",
+        "controls",
+        "evidence",
+        "audit"
+      ],
+      "author": {
+        "name": "Noru",
+        "email": "support@noru.tech"
+      }
+    }
+  ]
+}
