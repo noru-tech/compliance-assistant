@@ -24,19 +24,42 @@ metadata, one shared skill, client docs, and security-focused setup examples.
 - `plugins/compliance-assistant/skills/compliance-assistant/SKILL.md` contains the shared assistant workflow.
 - `clients/` contains setup docs for MCP clients.
 
+## Development & Testing
+
+There is no build step. Verify changes with the bundled stdlib-only checker:
+
+```bash
+python3 scripts/check_repo.py
+```
+
+This validates the Codex marketplace, installable plugin metadata, Claude marketplace metadata, MCP
+config, skill frontmatter, placeholder environment config, and basic secret hygiene.
+
+For local Codex installability, run:
+
+```bash
+tmpdir="$(mktemp -d)"
+CODEX_HOME="$tmpdir" codex plugin marketplace add <path-to-this-repo>
+CODEX_HOME="$tmpdir" codex plugin list --marketplace compliance-assistant
+CODEX_HOME="$tmpdir" codex plugin add compliance-assistant@compliance-assistant
+```
+
+The temporary `CODEX_HOME` keeps the check out of your real Codex configuration.
+
 ## Verification
 
 Before opening a pull request:
 
 ```bash
+python3 scripts/check_repo.py
 git diff --check
 ```
 
 If you have the Codex plugin-creator validation script installed, also run it against the repository
-root:
+plugin root:
 
 ```bash
-python3 <plugin-creator-skill>/scripts/validate_plugin.py .
+python3 <plugin-creator-skill>/scripts/validate_plugin.py plugins/compliance-assistant
 ```
 
 Also inspect staged content for secrets:

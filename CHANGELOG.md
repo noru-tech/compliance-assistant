@@ -17,6 +17,7 @@ All notable changes to this project are documented here. The format is based on
 - Shared `compliance-assistant` skill for guided Noru compliance workflows.
 - Client setup docs for Codex, Claude, Cursor, and generic MCP clients.
 - Public repo hygiene files and placeholder-only environment example.
+- `scripts/check_repo.py` for stdlib-only repository, marketplace, plugin, and secret-hygiene checks.
 
 [Unreleased]: https://github.com/noru-tech/compliance-assistant/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/noru-tech/compliance-assistant/releases/tag/v0.1.0
