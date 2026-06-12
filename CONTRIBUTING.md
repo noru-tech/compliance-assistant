@@ -10,8 +10,8 @@ metadata, one shared skill, client docs, and security-focused setup examples.
   access and no third-party install step. The Python standard library is considered atomic for this
   repo; stdlib-only scripts do not require dependency management. PyYAML may be used
   opportunistically, but a stdlib fallback must remain.
-- Never commit Noru API keys, bearer tokens, customer identifiers, generated customer configs, logs,
-  or captured customer output.
+- Never commit Noru API keys, OAuth tokens, bearer tokens, customer identifiers, generated customer
+  configs, logs, or captured customer output.
 - Use placeholders such as `<NORU_API_KEY>` and `${NORU_API_KEY}` in examples.
 - Keep examples oriented around least-privilege scopes.
 - Update `CHANGELOG.md` for user-visible changes.
@@ -69,8 +69,8 @@ git grep -n "noru_[A-Za-z0-9]" -- .
 git grep -n "Bearer [A-Za-z0-9]" -- .
 ```
 
-Those commands should find no real secrets. Placeholder strings such as `Bearer <NORU_API_KEY>` are
-acceptable in documentation.
+Those commands should find no real secrets. Placeholder strings such as `Bearer <NORU_API_KEY>` or
+`Bearer <access_token_or_api_key>` are acceptable in documentation.
 
 ## Pull Requests
 

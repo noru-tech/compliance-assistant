@@ -10,9 +10,16 @@ MCP bridge.
 /plugin install compliance-assistant@compliance-assistant
 ```
 
-Then add Noru as an MCP server.
+Then add Noru as an MCP server. Plugin installation does not sign in to Noru or store credentials.
+Claude manages MCP authentication for each configured server.
 
-## Claude Code MCP
+## OAuth
+
+Use OAuth when your Claude client supports OAuth for remote MCP servers. If Claude already has an
+authenticated `noru` MCP connection, the installed plugin can use that connection in the same Claude
+host.
+
+## API Key
 
 ```bash
 export NORU_API_KEY="<your_noru_api_key>"
@@ -42,6 +49,9 @@ Claude Desktop commonly uses a stdio bridge for remote MCP servers. Add this to 
 ```
 
 Replace `<NORU_API_KEY>` only in your private local config.
+
+Do not paste OAuth tokens or API keys into assistant chat. Do not commit local Claude configuration
+files that contain resolved credentials.
 
 ## First Prompt
 

@@ -1,14 +1,21 @@
 # Cursor Setup
 
 Cursor can connect to Noru MCP either through direct HTTP configuration or a local stdio bridge.
-Prefer the bridge if your Cursor setup does not securely store HTTP headers.
+Prefer OAuth when your Cursor setup supports OAuth for remote MCP servers. Prefer the bridge if your
+Cursor setup does not securely store HTTP headers.
 
 ## Requirements
 
 - Cursor with MCP support enabled.
-- A Noru API key with least-privilege scopes.
+- An authenticated Noru MCP connection, using OAuth where supported or a Noru API key for manual
+  bearer-token setup.
 
-## Direct HTTP
+## OAuth
+
+Use OAuth when Cursor supports OAuth for remote MCP servers. If Cursor already has an authenticated
+`noru` MCP connection, the plugin guidance can use that connection in the same Cursor host.
+
+## Direct HTTP With API Key
 
 Add this to your private Cursor MCP settings:
 
@@ -27,7 +34,7 @@ Add this to your private Cursor MCP settings:
 
 Do not commit `.cursor/` or any config file containing the resolved key.
 
-## Stdio Bridge
+## Stdio Bridge With API Key
 
 ```json
 {
@@ -45,6 +52,9 @@ Do not commit `.cursor/` or any config file containing the resolved key.
   }
 }
 ```
+
+Do not paste OAuth tokens or API keys into assistant chat. Do not commit `.cursor/` or any config
+file containing resolved credentials.
 
 ## First Prompt
 

@@ -24,17 +24,32 @@ the next best sequence of controls, policies, evidence, risks, and roadmap work.
 - Codex and Claude Code plugin metadata under `plugins/compliance-assistant/`.
 - Claude Code marketplace metadata under `.claude-plugin/`.
 - Client setup guides for Codex, Claude Code/Desktop, Cursor, and generic MCP clients.
-- A minimal configuration model: customers provide only `NORU_API_KEY` for the default hosted setup.
+- A minimal configuration model: customers authenticate the Noru MCP connection with OAuth where
+  their client supports it, or with `NORU_API_KEY` for manual/headless setup.
 
 ## Configuration
 
-Create a Noru API key in Noru Developer settings, then expose it to your local MCP client:
+The public package connects to Noru's hosted MCP endpoint at `https://api.noru.tech/v1/mcp`.
+
+The plugin does not store secrets or perform sign-in itself. Authentication is managed by the MCP
+host or client. If that client already has an authenticated `noru` MCP connection, this plugin can
+use it. MCP connections are local to the host: a connection configured in ChatGPT does not
+automatically authenticate Codex, Claude, Cursor, or another client.
+
+For a new connection, use one authentication path:
+
+- OAuth, when your MCP client supports OAuth for remote MCP servers.
+- A Noru API key, when your client needs manual bearer-token or headless configuration.
+
+For API-key setup, create a Noru API key in Noru Developer settings, then expose it only to your
+local MCP client:
 
 ```bash
 export NORU_API_KEY="<your_noru_api_key>"
 ```
 
-The public package connects to Noru's hosted MCP endpoint at `https://api.noru.tech/v1/mcp`.
+Both OAuth and API-key setup result in a bearer credential sent to Noru MCP. Do not paste
+credentials into assistant chat or commit local auth configuration.
 
 Use least-privilege scopes for the job:
 
