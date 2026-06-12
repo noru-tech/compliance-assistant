@@ -16,8 +16,7 @@ Then add Noru as an MCP server.
 
 ```bash
 export NORU_API_KEY="<your_noru_api_key>"
-export NORU_API_URL="https://api.noru.tech/v1/mcp"
-claude mcp add --transport http noru "$NORU_API_URL" --header "Authorization: Bearer $NORU_API_KEY"
+claude mcp add --transport http noru "https://api.noru.tech/v1/mcp" --header "Authorization: Bearer $NORU_API_KEY"
 ```
 
 ## Claude Desktop
@@ -32,11 +31,10 @@ Claude Desktop commonly uses a stdio bridge for remote MCP servers. Add this to 
       "command": "sh",
       "args": [
         "-lc",
-        "exec npx -y mcp-remote@latest \"${NORU_API_URL:-https://api.noru.tech/v1/mcp}\" --header \"Authorization: Bearer ${NORU_API_KEY}\""
+        "exec npx -y mcp-remote@latest \"https://api.noru.tech/v1/mcp\" --header \"Authorization: Bearer ${NORU_API_KEY}\""
       ],
       "env": {
-        "NORU_API_KEY": "<NORU_API_KEY>",
-        "NORU_API_URL": "https://api.noru.tech/v1/mcp"
+        "NORU_API_KEY": "<NORU_API_KEY>"
       }
     }
   }

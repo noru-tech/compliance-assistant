@@ -36,11 +36,10 @@ Do not commit `.cursor/` or any config file containing the resolved key.
       "command": "sh",
       "args": [
         "-lc",
-        "exec npx -y mcp-remote@latest \"${NORU_API_URL:-https://api.noru.tech/v1/mcp}\" --header \"Authorization: Bearer ${NORU_API_KEY}\""
+        "exec npx -y mcp-remote@latest \"https://api.noru.tech/v1/mcp\" --header \"Authorization: Bearer ${NORU_API_KEY}\""
       ],
       "env": {
-        "NORU_API_KEY": "<NORU_API_KEY>",
-        "NORU_API_URL": "https://api.noru.tech/v1/mcp"
+        "NORU_API_KEY": "<NORU_API_KEY>"
       }
     }
   }

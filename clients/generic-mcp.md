@@ -16,7 +16,6 @@ Authorization: Bearer <NORU_API_KEY>
 
 ```bash
 export NORU_API_KEY="<your_noru_api_key>"
-export NORU_API_URL="https://api.noru.tech/v1/mcp"
 ```
 
 ## Direct HTTP Clients
@@ -47,11 +46,10 @@ Use `mcp-remote` when your client only supports stdio servers:
       "command": "sh",
       "args": [
         "-lc",
-        "exec npx -y mcp-remote@latest \"${NORU_API_URL:-https://api.noru.tech/v1/mcp}\" --header \"Authorization: Bearer ${NORU_API_KEY}\""
+        "exec npx -y mcp-remote@latest \"https://api.noru.tech/v1/mcp\" --header \"Authorization: Bearer ${NORU_API_KEY}\""
       ],
       "env": {
-        "NORU_API_KEY": "<NORU_API_KEY>",
-        "NORU_API_URL": "https://api.noru.tech/v1/mcp"
+        "NORU_API_KEY": "<NORU_API_KEY>"
       }
     }
   }

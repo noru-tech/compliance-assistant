@@ -32,10 +32,9 @@ Create a Noru API key in Noru Developer settings, then expose it to your local M
 
 ```bash
 export NORU_API_KEY="<your_noru_api_key>"
-export NORU_API_URL="https://api.noru.tech/v1/mcp"
 ```
 
-`NORU_API_URL` is optional unless you need to point at a non-production Noru endpoint.
+The public package connects to Noru's hosted MCP endpoint at `https://api.noru.tech/v1/mcp`.
 
 Use least-privilege scopes for the job:
 

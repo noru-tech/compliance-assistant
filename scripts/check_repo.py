@@ -14,6 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PLUGIN_ROOT = ROOT / "plugins" / "compliance-assistant"
+ENDPOINT_OVERRIDE_ENV = "NORU_" + "API_URL"
 
 SEMVER_RE = re.compile(
     r"^(0|[1-9]\d*)\."
@@ -179,7 +180,7 @@ def validate_env_example(errors: list[str]) -> None:
         return
     text = path.read_text(encoding="utf-8")
     require("NORU_API_KEY=<your_noru_api_key>" in text, ".env.example must use NORU_API_KEY placeholder", errors)
-    require("https://api.noru.tech/v1/mcp" in text, ".env.example must include default MCP URL", errors)
+    require(ENDPOINT_OVERRIDE_ENV not in text, ".env.example must only include the required API key placeholder", errors)
     for pattern in SECRET_PATTERNS:
         require(pattern.search(text) is None, ".env.example must not contain realistic secret-looking values", errors)
 

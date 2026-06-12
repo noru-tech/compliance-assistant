@@ -29,7 +29,6 @@ Then configure bearer authentication in your local Codex MCP settings:
 
 ```bash
 export NORU_API_KEY="<your_noru_api_key>"
-export NORU_API_URL="https://api.noru.tech/v1/mcp"
 ```
 
 The server name is:
