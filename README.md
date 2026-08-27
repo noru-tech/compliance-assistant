@@ -134,6 +134,19 @@ codex plugin add compliance-assistant@compliance-assistant
 
 Then configure Noru MCP using [the Codex guide](./clients/codex.md).
 
+## Related
+
+[`noru-tech/noru-grc-engineering`](https://github.com/noru-tech/noru-grc-engineering) is the other
+half of the same job, over the same MCP server. This repository is the **conversation**: what to do
+next, which controls block which, what the gaps are, what a roadmap looks like. That one is the
+**hands-on work in a repository** — inventorying the AI systems a codebase contains, building a
+privacy data map from its schemas, scanning infrastructure configuration, pushing local evidence,
+assembling an audit pack — each landing in Noru with a `file:line` citation and a named owner.
+
+They are deliberately separate and install side by side. This one is useful with no repository at
+all, in any MCP client; those need a git work tree, write `.noru/*.yml` into it, and run in CI on a
+pull request.
+
 ## Security
 
 Never commit API keys, tokens, customer identifiers, local MCP configs containing secrets, logs, or
