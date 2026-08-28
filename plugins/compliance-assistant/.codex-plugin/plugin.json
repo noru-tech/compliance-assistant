@@ -1,6 +1,6 @@
 {
   "name": "compliance-assistant",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Guide Noru customers through compliance workflows using Noru's remote MCP server.",
   "author": {
     "name": "Noru",
