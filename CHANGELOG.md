@@ -6,10 +6,13 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-08-28
+
 ### Changed
 
 - Clarified that Noru MCP authentication is managed by each MCP host or client.
 - Documented OAuth as the preferred option where supported, with API keys for manual/headless setup.
+- Linked to noru-grc-engineering and documented the production MCP endpoint.
 
 ## [0.1.0] - 2026-06-10
 
@@ -24,5 +27,6 @@ All notable changes to this project are documented here. The format is based on
 - Public repo hygiene files and placeholder-only environment example.
 - `scripts/check_repo.py` for stdlib-only repository, marketplace, plugin, and secret-hygiene checks.
 
-[Unreleased]: https://github.com/noru-tech/compliance-assistant/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/noru-tech/compliance-assistant/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/noru-tech/compliance-assistant/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/noru-tech/compliance-assistant/releases/tag/v0.1.0
