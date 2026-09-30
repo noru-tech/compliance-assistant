@@ -1,6 +1,6 @@
 # compliance-assistant
 
-Claude Code and Codex plugin that guides SOC 2, ISO 27001, GDPR and other framework work through Noru's MCP server. For Noru customers.
+Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework work through Noru's MCP server. For Noru customers.
 
 [![Release](https://img.shields.io/github/v/release/noru-tech/compliance-assistant)](https://github.com/noru-tech/compliance-assistant/releases)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/noru-tech/compliance-assistant/badge)](https://scorecard.dev/viewer/?uri=github.com/noru-tech/compliance-assistant)
