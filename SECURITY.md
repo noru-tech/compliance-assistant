@@ -12,8 +12,9 @@ This project is pre-1.0. Security fixes are applied to the latest release on the
 
 Please report security issues privately. Do not open a public issue for an unfixed vulnerability.
 
+- GitHub Private Vulnerability Reporting:
+  https://github.com/noru-tech/compliance-assistant/security/advisories/new
 - Email: **security@noru.tech** with a subject line beginning `[SECURITY] compliance-assistant`.
-- If hosted on GitHub, you may also use GitHub Private Vulnerability Reporting.
 
 Please include the affected file or version, reproduction steps, expected impact, and whether any
 secret or customer data exposure is involved.

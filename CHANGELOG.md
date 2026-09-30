@@ -6,6 +6,19 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+### Added
+
+- OpenSSF Scorecard workflow with SARIF upload and pinned action SHAs.
+- Dependabot configuration for GitHub Actions.
+- Issue forms (bug report, feature request), pull request template and CODEOWNERS.
+
+### Changed
+
+- README now opens with the canonical description, a badge row, a "Who it is for" line, install
+  commands near the top, and "What it is not" and "Trust" sections.
+- Plugin and marketplace manifest descriptions use the canonical description.
+- SECURITY.md links GitHub Private Vulnerability Reporting for this repository.
+
 ## [0.1.1] - 2026-08-28
 
 ### Changed

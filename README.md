@@ -1,10 +1,40 @@
 # compliance-assistant
 
-> Guide Noru customers through framework compliance work using Noru's remote MCP server.
+Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework work through Noru's MCP server. For Noru customers.
 
+[![Release](https://img.shields.io/github/v/release/noru-tech/compliance-assistant)](https://github.com/noru-tech/compliance-assistant/releases)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/noru-tech/compliance-assistant/badge)](https://scorecard.dev/viewer/?uri=github.com/noru-tech/compliance-assistant)
 [![License: MIT](https://img.shields.io/badge/Code-MIT-blue.svg)](./LICENSE)
 [![Codex Plugin](https://img.shields.io/badge/Codex-plugin-111827.svg)](./clients/codex.md)
 [![Claude Code Plugin](https://img.shields.io/badge/Claude%20Code-plugin-da7756.svg)](./clients/claude.md)
+
+**Who it is for:** teams that already use Noru. It needs a Noru account and organization, and an
+authenticated connection to Noru's MCP server; it does nothing on its own.
+
+## Install
+
+### Claude Code
+
+```text
+/plugin marketplace add noru-tech/compliance-assistant
+/plugin install compliance-assistant@compliance-assistant
+```
+
+Then configure Noru MCP using [the Claude guide](./clients/claude.md).
+
+### Codex
+
+```bash
+codex plugin marketplace add noru-tech/compliance-assistant
+codex plugin add compliance-assistant@compliance-assistant
+```
+
+Then configure Noru MCP using [the Codex guide](./clients/codex.md).
+
+Cursor and other MCP clients can connect to the same Noru MCP server; see
+[Cursor](./clients/cursor.md) and [Generic MCP clients](./clients/generic-mcp.md).
+
+## What it is
 
 `compliance-assistant` is an open source assistant package for Noru customers. It packages a shared
 agent skill and client setup docs for working with Noru over MCP, with installable metadata for
@@ -81,6 +111,18 @@ The skill starts by discovering real Noru context instead of guessing:
 External clients must ask for explicit user confirmation before write-like actions such as drafting
 policies, changing control status, creating or linking evidence, or updating risks.
 
+## What it is not
+
+- Not a standalone compliance tool. It holds no compliance data of its own; everything comes from
+  your Noru organization.
+- Not usable without a Noru organization and an authenticated `noru` MCP connection.
+- Not a credential store. It does not store secrets or perform sign-in; the MCP host or client
+  manages authentication.
+- Not a way around Noru permissions. It reads and writes only through the MCP server's tools, limited
+  to the scopes granted to your OAuth grant or API key.
+- Not autonomous. Write-like actions (policy drafting, control status changes, evidence and risk
+  updates) require your explicit confirmation first.
+
 ## Repository Layout
 
 ```text
@@ -90,6 +132,7 @@ compliance-assistant/
 │       └── marketplace.json       # Codex marketplace
 ├── .claude-plugin/
 │   └── marketplace.json           # Claude Code marketplace
+├── .github/                       # Issue forms, PR template, Dependabot, Scorecard workflow
 ├── clients/
 │   ├── codex.md
 │   ├── claude.md
@@ -105,6 +148,8 @@ compliance-assistant/
 │       └── skills/
 │           └── compliance-assistant/
 │               └── SKILL.md
+├── scripts/
+│   └── check_repo.py              # Stdlib-only repository checks
 ├── .env.example
 ├── README.md
 ├── LICENSE
@@ -113,26 +158,6 @@ compliance-assistant/
 ├── CODE_OF_CONDUCT.md
 └── CHANGELOG.md
 ```
-
-## Install
-
-### Claude Code
-
-```text
-/plugin marketplace add noru-tech/compliance-assistant
-/plugin install compliance-assistant@compliance-assistant
-```
-
-Then configure Noru MCP using [the Claude guide](./clients/claude.md).
-
-### Codex
-
-```bash
-codex plugin marketplace add noru-tech/compliance-assistant
-codex plugin add compliance-assistant@compliance-assistant
-```
-
-Then configure Noru MCP using [the Codex guide](./clients/codex.md).
 
 ## Related
 
@@ -147,6 +172,13 @@ They are deliberately separate and install side by side. This one is useful with
 all, in any MCP client; those need a git work tree, write `.noru/*.yml` into it, and run in CI on a
 pull request.
 
+## Trust
+
+- MIT licensed; see [LICENSE](./LICENSE).
+- Report vulnerabilities privately; see [SECURITY.md](./SECURITY.md).
+- No telemetry. The installed plugin is a skill, MCP configuration and metadata with no executable
+  code; it talks only to the Noru MCP server your client is configured for.
+
 ## Security
 
 Never commit API keys, tokens, customer identifiers, local MCP configs containing secrets, logs, or
@@ -158,3 +190,5 @@ For private vulnerability reporting, see [SECURITY.md](./SECURITY.md).
 
 Contributions are welcome. See [CONTRIBUTING.md](./CONTRIBUTING.md), [SECURITY.md](./SECURITY.md),
 and [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
+
+Maintained by [Noru](https://noru.tech), a continuous compliance platform.
