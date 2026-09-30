@@ -5,12 +5,12 @@
     "name": "Noru",
     "email": "support@noru.tech"
   },
-  "description": "A marketplace for the Noru Compliance Assistant plugin.",
+  "description": "Claude Code and Codex plugin that guides SOC 2, ISO 27001, GDPR and other framework work through Noru's MCP server. For Noru customers.",
   "plugins": [
     {
       "name": "compliance-assistant",
       "source": "./plugins/compliance-assistant",
-      "description": "Guide Noru customers through compliance workflows using Noru's remote MCP server.",
+      "description": "Claude Code and Codex plugin that guides SOC 2, ISO 27001, GDPR and other framework work through Noru's MCP server. For Noru customers.",
       "version": "0.1.1",
       "license": "MIT",
       "category": "compliance",
