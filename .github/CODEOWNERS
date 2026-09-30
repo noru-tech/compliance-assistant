@@ -1,0 +1,7 @@
+# Review ownership. Changes to the skill, plugin manifests and MCP configuration change what
+# customers' agents do against Noru; changes to workflows run with repository credentials.
+*                       @bipthelin
+/plugins/               @bipthelin
+/.claude-plugin/        @bipthelin
+/.agents/               @bipthelin
+/.github/               @bipthelin

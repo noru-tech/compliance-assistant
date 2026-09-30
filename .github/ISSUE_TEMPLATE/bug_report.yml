@@ -1,0 +1,52 @@
+name: Bug report
+description: Wrong guidance, an installation problem, or an MCP condition the assistant does not handle
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Noru tool output contains customer compliance data. Do not paste API keys, OAuth tokens,
+        organization names, evidence or captured tool output. Describe the problem with
+        placeholders or a synthetic example.
+  - type: input
+    id: version
+    attributes:
+      label: Plugin version
+      description: From the installed plugin manifest or the release you installed.
+      placeholder: e.g. 0.1.1
+    validations:
+      required: true
+  - type: dropdown
+    id: client
+    attributes:
+      label: Client
+      options: [Claude Code, Claude Desktop, Codex, Cursor, other MCP client]
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [installation, MCP connection or authentication, skill guidance, write-action confirmation, documentation, other]
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      description: For skill behaviour, cite the relevant part of SKILL.md or the client guide.
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened?
+      description: Prompt, commands and errors. Redact tokens and customer data.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: Minimal steps to reproduce, including granted scopes if relevant.

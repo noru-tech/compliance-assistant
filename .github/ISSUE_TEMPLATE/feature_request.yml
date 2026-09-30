@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a change to the skill, client support or setup docs
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        The assistant works only through Noru's MCP server tools. Requests for new Noru data or
+        tools belong with Noru; this repository covers how the assistant uses what the server
+        exposes.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What compliance task is hard or impossible today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should the assistant or docs do instead?
+    validations:
+      required: true
+  - type: textarea
+    id: tools
+    attributes:
+      label: MCP tools and scopes
+      description: Which Noru MCP tools, resources or prompts would this use, and which scopes would it need? Does it involve a write action?
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
