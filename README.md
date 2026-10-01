@@ -2,7 +2,7 @@
 
 Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework work through Noru's MCP server. For Noru customers.
 
-[![Release](https://img.shields.io/github/v/release/noru-tech/compliance-assistant)](https://github.com/noru-tech/compliance-assistant/releases)
+[![Plugin version](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnoru-tech%2Fcompliance-assistant%2Fmain%2Fplugins%2Fcompliance-assistant%2F.claude-plugin%2Fplugin.json&query=%24.version&label=plugin)](./CHANGELOG.md)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/noru-tech/compliance-assistant/badge)](https://scorecard.dev/viewer/?uri=github.com/noru-tech/compliance-assistant)
 [![License: MIT](https://img.shields.io/badge/Code-MIT-blue.svg)](./LICENSE)
 [![Codex Plugin](https://img.shields.io/badge/Codex-plugin-111827.svg)](./clients/codex.md)
