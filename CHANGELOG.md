@@ -8,6 +8,21 @@ All notable changes to this project are documented here. The format is based on
 
 ### Added
 
+- `server.json`: official MCP Registry entry for Noru's remote MCP server (`tech.noru/mcp`,
+  streamable HTTP at `https://api.noru.tech/v1/mcp`, optional API-key bearer header for clients
+  without OAuth). It is published by a manual-only `publish-mcp-registry` workflow that uses DNS
+  authentication for `noru.tech` and a pinned, checksum-verified `mcp-publisher`. One-time setup is
+  in `docs/mcp-registry.md`.
+- Gemini CLI extension manifest (`gemini-extension.json`). It registers the Noru MCP server and
+  loads the skill guidance as context. Guide: `clients/gemini.md`.
+- Cursor plugin metadata (`.cursor-plugin/marketplace.json`,
+  `plugins/compliance-assistant/.cursor-plugin/plugin.json` and `plugins/compliance-assistant/mcp.json`)
+  following Cursor's published plugin schemas.
+- GitHub Copilot CLI install instructions (`clients/copilot.md`). Copilot CLI reads the existing
+  `.claude-plugin/marketplace.json`.
+- `scripts/check_repo.py` checks the new manifests and fails if any manifest's version differs from
+  the plugin version.
+
 - CodeQL static analysis of the Python and workflow code on every pull request, on main and weekly.
 - OpenSSF Scorecard workflow with SARIF upload and pinned action SHAs.
 - Dependabot configuration for GitHub Actions.

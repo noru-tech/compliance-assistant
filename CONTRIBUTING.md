@@ -19,7 +19,15 @@ metadata, one shared skill, client docs, and security-focused setup examples.
 ## Project Layout
 
 - `.agents/plugins/marketplace.json` contains the Codex marketplace entry.
-- `.claude-plugin/marketplace.json` contains the Claude Code marketplace entry.
+- `.claude-plugin/marketplace.json` contains the Claude Code marketplace entry; GitHub Copilot CLI
+  reads it too.
+- `.cursor-plugin/marketplace.json` and `plugins/compliance-assistant/.cursor-plugin/plugin.json`
+  contain the Cursor plugin metadata.
+- `gemini-extension.json` is the Gemini CLI extension manifest.
+- `server.json` is the official MCP Registry entry for Noru's remote MCP server; see
+  `docs/mcp-registry.md`.
+- When you bump the plugin version, update every manifest that carries it. `scripts/check_repo.py`
+  fails if they disagree.
 - `plugins/compliance-assistant/` contains the installable plugin payload.
 - `plugins/compliance-assistant/skills/compliance-assistant/SKILL.md` contains the shared assistant workflow.
 - `clients/` contains setup docs for MCP clients.
@@ -32,8 +40,9 @@ There is no build step. Verify changes with the bundled stdlib-only checker:
 python3 scripts/check_repo.py
 ```
 
-This validates the Codex marketplace, installable plugin metadata, Claude marketplace metadata, MCP
-config, skill frontmatter, placeholder environment config, and basic secret hygiene.
+This validates the Codex marketplace, installable plugin metadata, Claude and Cursor marketplace
+metadata, the Gemini extension manifest, the MCP Registry `server.json`, MCP config, skill
+frontmatter, placeholder environment config, and basic secret hygiene.
 
 For local Codex installability, run:
 
