@@ -8,6 +8,7 @@ All notable changes to this project are documented here. The format is based on
 
 ### Added
 
+- CodeQL static analysis of the Python and workflow code on every pull request, on main and weekly.
 - OpenSSF Scorecard workflow with SARIF upload and pinned action SHAs.
 - Dependabot configuration for GitHub Actions.
 - Issue forms (bug report, feature request), pull request template and CODEOWNERS.
