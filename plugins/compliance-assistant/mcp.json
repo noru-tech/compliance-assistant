@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "noru": {
+      "type": "http",
+      "url": "https://api.noru.tech/v1/mcp"
+    }
+  }
+}

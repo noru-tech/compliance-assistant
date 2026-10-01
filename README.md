@@ -31,8 +31,36 @@ codex plugin add compliance-assistant@compliance-assistant
 
 Then configure Noru MCP using [the Codex guide](./clients/codex.md).
 
-Cursor and other MCP clients can connect to the same Noru MCP server; see
+### GitHub Copilot CLI
+
+Copilot CLI reads the same `.claude-plugin/marketplace.json`:
+
+```bash
+copilot plugin marketplace add noru-tech/compliance-assistant
+copilot plugin install compliance-assistant@compliance-assistant
+```
+
+Then authenticate Noru MCP using [the Copilot CLI guide](./clients/copilot.md).
+
+### Gemini CLI
+
+```bash
+gemini extensions install https://github.com/noru-tech/compliance-assistant
+```
+
+Then authenticate Noru MCP using [the Gemini CLI guide](./clients/gemini.md).
+
+### Cursor and other MCP clients
+
+The repository uses Cursor's plugin layout (`.cursor-plugin/`) but is not yet listed in the Cursor
+Marketplace. Cursor and other MCP clients can connect to the same Noru MCP server; see
 [Cursor](./clients/cursor.md) and [Generic MCP clients](./clients/generic-mcp.md).
+
+### MCP Registry
+
+Noru's remote MCP server is described for the official MCP Registry as `tech.noru/mcp` in
+[`server.json`](./server.json). See [docs/mcp-registry.md](./docs/mcp-registry.md) for how it is
+published.
 
 ## What it is
 
@@ -52,8 +80,13 @@ the next best sequence of controls, policies, evidence, risks, and roadmap work.
 - A shared `compliance-assistant` skill for compliance sequencing and safe Noru MCP usage.
 - Codex marketplace metadata under `.agents/plugins/marketplace.json`.
 - Codex and Claude Code plugin metadata under `plugins/compliance-assistant/`.
-- Claude Code marketplace metadata under `.claude-plugin/`.
-- Client setup guides for Codex, Claude Code/Desktop, Cursor, and generic MCP clients.
+- Claude Code marketplace metadata under `.claude-plugin/`, which GitHub Copilot CLI also reads.
+- Cursor plugin and marketplace metadata under `.cursor-plugin/` and
+  `plugins/compliance-assistant/.cursor-plugin/`.
+- A Gemini CLI extension manifest, `gemini-extension.json`.
+- An official MCP Registry entry for Noru's remote MCP server, `server.json`.
+- Client setup guides for Codex, Claude Code/Desktop, GitHub Copilot CLI, Gemini CLI, Cursor, and
+  generic MCP clients.
 - A minimal configuration model: customers authenticate the Noru MCP connection with OAuth where
   their client supports it, or with `NORU_API_KEY` for manual/headless setup.
 
@@ -94,6 +127,8 @@ See the client guides:
 
 - [Codex](./clients/codex.md)
 - [Claude Code and Claude Desktop](./clients/claude.md)
+- [GitHub Copilot CLI](./clients/copilot.md)
+- [Gemini CLI](./clients/gemini.md)
 - [Cursor](./clients/cursor.md)
 - [Generic MCP clients](./clients/generic-mcp.md)
 
@@ -131,25 +166,36 @@ compliance-assistant/
 │   └── plugins/
 │       └── marketplace.json       # Codex marketplace
 ├── .claude-plugin/
-│   └── marketplace.json           # Claude Code marketplace
-├── .github/                       # Issue forms, PR template, Dependabot, Scorecard workflow
+│   └── marketplace.json           # Claude Code marketplace (also read by Copilot CLI)
+├── .cursor-plugin/
+│   └── marketplace.json           # Cursor marketplace
+├── .github/                       # Issue forms, PR template, Dependabot, CI and publish workflows
 ├── clients/
 │   ├── codex.md
 │   ├── claude.md
+│   ├── copilot.md
+│   ├── gemini.md
 │   ├── cursor.md
 │   └── generic-mcp.md
+├── docs/
+│   └── mcp-registry.md            # Publishing server.json to the MCP Registry
 ├── plugins/
 │   └── compliance-assistant/
 │       ├── .codex-plugin/
 │       │   └── plugin.json
 │       ├── .claude-plugin/
 │       │   └── plugin.json
-│       ├── .mcp.json
+│       ├── .cursor-plugin/
+│       │   └── plugin.json
+│       ├── .mcp.json              # Claude Code, Codex, Copilot CLI
+│       ├── mcp.json               # Cursor
 │       └── skills/
 │           └── compliance-assistant/
 │               └── SKILL.md
 ├── scripts/
 │   └── check_repo.py              # Stdlib-only repository checks
+├── gemini-extension.json          # Gemini CLI extension
+├── server.json                    # Official MCP Registry entry (tech.noru/mcp)
 ├── .env.example
 ├── README.md
 ├── LICENSE

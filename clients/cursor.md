@@ -4,6 +4,26 @@ Cursor can connect to Noru MCP either through direct HTTP configuration or a loc
 Prefer OAuth when your Cursor setup supports OAuth for remote MCP servers. Prefer the bridge if your
 Cursor setup does not securely store HTTP headers.
 
+## Cursor Plugin
+
+This repository also uses Cursor's plugin layout. The root `.cursor-plugin/marketplace.json` lists
+`plugins/compliance-assistant/`, which has its own `.cursor-plugin/plugin.json`. That manifest
+loads the shared `compliance-assistant` skill from `skills/` and registers the `noru` MCP server
+from `mcp.json`. The server is remote HTTP at `https://api.noru.tech/v1/mcp` and has no inline
+credentials.
+
+Format sources:
+
+- `cursor/plugins` at commit `2eb7ed4613cfc8f098dfe464a23680ea44d84c5e`:
+  `schemas/plugin.schema.json`, `schemas/marketplace.schema.json` and, for the local plugin
+  directory, `create-plugin/skills/create-plugin-scaffold/SKILL.md`.
+- `cursor/plugin-template` at commit `46216072ac5750f782f95bb325b4d12b7c3ae9c9`: `README.md` and
+  `docs/add-a-plugin.md`.
+
+The plugin is not yet listed in the Cursor Marketplace. To use it locally, copy
+`plugins/compliance-assistant/` to `~/.cursor/plugins/local/compliance-assistant/`. Then
+authenticate the `noru` server with OAuth, or set it up as described below.
+
 ## Requirements
 
 - Cursor with MCP support enabled.

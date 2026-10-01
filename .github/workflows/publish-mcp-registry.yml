@@ -1,0 +1,75 @@
+# Publishes server.json (Noru's remote MCP server, tech.noru/mcp) to the official MCP Registry,
+# registry.modelcontextprotocol.io. Manual only: run it from the Actions tab on main.
+#
+# Follows the "DNS authentication" workflow in modelcontextprotocol/registry
+# docs/modelcontextprotocol-io/github-actions.mdx (commit bf4e88cbe8d1a635c06144ccea1d24cb52fa6186),
+# with mcp-publisher pinned to a release and its archive checked against that release's
+# registry_<version>_checksums.txt instead of downloading "latest" unverified.
+#
+# DNS rather than GitHub OIDC: `login github-oidc` only grants io.github.<repository_owner>/*
+# (internal/api/handlers/v0/auth/github_oidc.go), while `login dns --domain noru.tech` grants the
+# tech.noru/* namespace this server is published under.
+#
+# One-time setup (TXT record on noru.tech, MCP_REGISTRY_PRIVATE_KEY secret): docs/mcp-registry.md.
+name: publish-mcp-registry
+
+on:
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: publish-mcp-registry
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: publish server.json
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # The registry docs recommend keeping the publishing credential on a protected environment:
+    # the DNS key can publish or overwrite any server under tech.noru/*. A repository secret also
+    # reaches this job; see docs/mcp-registry.md for restricting the environment to main.
+    environment: mcp-registry-publish
+    permissions:
+      contents: read
+    env:
+      MCP_PUBLISHER_VERSION: "1.8.1"
+      # sha256 of mcp-publisher_linux_amd64.tar.gz from registry_1.8.1_checksums.txt (release v1.8.1,
+      # tag commit f52dc8525a441a3abf5fedc9912152d95af5aab1).
+      MCP_PUBLISHER_SHA256: a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install mcp-publisher
+        run: |
+          archive="mcp-publisher_linux_amd64.tar.gz"
+          curl -fsSL --retry 3 -o "${RUNNER_TEMP}/${archive}" \
+            "https://github.com/modelcontextprotocol/registry/releases/download/v${MCP_PUBLISHER_VERSION}/${archive}"
+          echo "${MCP_PUBLISHER_SHA256}  ${RUNNER_TEMP}/${archive}" | sha256sum --check --strict -
+          tar -xzf "${RUNNER_TEMP}/${archive}" -C "${RUNNER_TEMP}" mcp-publisher
+          "${RUNNER_TEMP}/mcp-publisher" --version
+
+      - name: Validate server.json
+        run: '"${RUNNER_TEMP}/mcp-publisher" validate server.json'
+
+      - name: Authenticate to MCP Registry (DNS, noru.tech)
+        env:
+          MCP_REGISTRY_PRIVATE_KEY: ${{ secrets.MCP_REGISTRY_PRIVATE_KEY }}
+        run: |
+          if [ -z "${MCP_REGISTRY_PRIVATE_KEY}" ]; then
+            echo "::error::Repository secret MCP_REGISTRY_PRIVATE_KEY is not set; see docs/mcp-registry.md"
+            exit 1
+          fi
+          "${RUNNER_TEMP}/mcp-publisher" login dns --domain noru.tech --private-key "${MCP_REGISTRY_PRIVATE_KEY}"
+
+      - name: Publish server.json
+        run: '"${RUNNER_TEMP}/mcp-publisher" publish server.json'
+
+      - name: Log out
+        if: always()
+        run: '"${RUNNER_TEMP}/mcp-publisher" logout || true'

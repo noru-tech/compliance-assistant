@@ -1,0 +1,35 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "tech.noru/mcp",
+  "title": "Noru",
+  "description": "Noru compliance workspace: frameworks, controls, policies, evidence, risks, vendors and assets.",
+  "version": "0.1.1",
+  "websiteUrl": "https://noru.tech",
+  "repository": {
+    "url": "https://github.com/noru-tech/compliance-assistant",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://api.noru.tech/v1/mcp",
+      "headers": [
+        {
+          "name": "Authorization",
+          "description": "Only for clients without OAuth: a Noru API key sent as a bearer token. OAuth clients leave this unset.",
+          "isRequired": false,
+          "isSecret": true,
+          "value": "Bearer {noru_api_key}",
+          "variables": {
+            "noru_api_key": {
+              "description": "Noru API key from Noru Developer settings, with least-privilege scopes.",
+              "isRequired": true,
+              "isSecret": true,
+              "placeholder": "NORU_API_KEY"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

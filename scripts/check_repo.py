@@ -175,6 +175,82 @@ def validate_mcp(errors: list[str]) -> None:
             require("OAuth" in note and "NORU_API_KEY" in note, ".mcp.json note must document OAuth and API-key auth options", errors)
 
 
+def validate_registry_server(errors: list[str]) -> None:
+    """Check server.json, the official MCP Registry entry for the remote server.
+
+    Field names and limits follow the registry's 2025-12-11 server.json schema
+    (modelcontextprotocol/registry internal/validators/schemas/2025-12-11.json).
+    """
+    payload = load_json(ROOT / "server.json", errors)
+    if not payload:
+        return
+    manifest = load_json(PLUGIN_ROOT / ".claude-plugin" / "plugin.json", errors)
+    description = payload.get("description")
+
+    require(payload.get("$schema") == "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json", "server.json $schema must be the 2025-12-11 registry schema", errors)
+    require(payload.get("name") == "tech.noru/mcp", "server.json name must be tech.noru/mcp", errors)
+    require(isinstance(description, str) and 1 <= len(description) <= 100, "server.json description must be 1-100 characters", errors)
+    require(payload.get("version") == manifest.get("version"), "server.json version must match plugin manifest", errors)
+    require("packages" not in payload, "server.json describes the remote server only and must not list packages", errors)
+
+    remotes = payload.get("remotes")
+    require(isinstance(remotes, list) and len(remotes) == 1, "server.json must contain exactly one remote", errors)
+    if isinstance(remotes, list) and remotes and isinstance(remotes[0], dict):
+        remote = remotes[0]
+        require(remote.get("type") == "streamable-http", "server.json remote type must be streamable-http", errors)
+        require(remote.get("url") == "https://api.noru.tech/v1/mcp", "server.json remote URL must be production endpoint", errors)
+        for header in remote.get("headers", []):
+            require(header.get("isSecret") is True, "server.json remote headers must be marked isSecret", errors)
+            require(header.get("isRequired") is False, "server.json auth header must be optional so OAuth clients need no API key", errors)
+
+
+def validate_cursor_metadata(errors: list[str]) -> None:
+    """Check the Cursor plugin layout (cursor/plugins schemas/*.schema.json)."""
+    marketplace = load_json(ROOT / ".cursor-plugin" / "marketplace.json", errors)
+    manifest = load_json(PLUGIN_ROOT / ".cursor-plugin" / "plugin.json", errors)
+    claude_manifest = load_json(PLUGIN_ROOT / ".claude-plugin" / "plugin.json", errors)
+    plugins = marketplace.get("plugins")
+
+    require(marketplace.get("name") == "compliance-assistant", "Cursor marketplace name must be compliance-assistant", errors)
+    require(isinstance(plugins, list) and len(plugins) == 1, "Cursor marketplace must contain exactly one plugin", errors)
+    if isinstance(plugins, list) and plugins and isinstance(plugins[0], dict):
+        entry = plugins[0]
+        require(entry.get("name") == "compliance-assistant", "Cursor plugin entry name must be compliance-assistant", errors)
+        require(entry.get("source") == "./plugins/compliance-assistant", "Cursor plugin source must point at ./plugins/compliance-assistant", errors)
+
+    require(manifest.get("name") == "compliance-assistant", "Cursor plugin manifest name must be compliance-assistant", errors)
+    require(manifest.get("version") == claude_manifest.get("version"), "Cursor plugin version must match Claude plugin manifest", errors)
+    require(manifest.get("skills") == "./skills/", "Cursor plugin skills path must be ./skills/", errors)
+    require(manifest.get("mcpServers") == "./mcp.json", "Cursor plugin mcpServers path must be ./mcp.json", errors)
+
+    cursor_mcp = load_json(PLUGIN_ROOT / "mcp.json", errors)
+    servers = cursor_mcp.get("mcpServers")
+    noru = servers.get("noru") if isinstance(servers, dict) else None
+    require(isinstance(noru, dict), "Cursor mcp.json must include noru server", errors)
+    if isinstance(noru, dict):
+        require(noru.get("type") == "http", "Cursor noru MCP server type must be http", errors)
+        require(noru.get("url") == "https://api.noru.tech/v1/mcp", "Cursor noru MCP server URL must be production endpoint", errors)
+        require("headers" not in noru, "Cursor mcp.json must not inline auth headers", errors)
+
+
+def validate_gemini_extension(errors: list[str]) -> None:
+    """Check gemini-extension.json (google-gemini/gemini-cli docs/extensions/reference.md)."""
+    payload = load_json(ROOT / "gemini-extension.json", errors)
+    manifest = load_json(PLUGIN_ROOT / ".claude-plugin" / "plugin.json", errors)
+    require(payload.get("name") == "compliance-assistant", "Gemini extension name must be compliance-assistant", errors)
+    require(payload.get("version") == manifest.get("version"), "Gemini extension version must match plugin manifest", errors)
+
+    context = payload.get("contextFileName")
+    require(isinstance(context, str) and (ROOT / context).is_file(), "Gemini contextFileName must point at an existing file", errors)
+
+    servers = payload.get("mcpServers")
+    noru = servers.get("noru") if isinstance(servers, dict) else None
+    require(isinstance(noru, dict), "Gemini extension must include noru MCP server", errors)
+    if isinstance(noru, dict):
+        require(noru.get("httpUrl") == "https://api.noru.tech/v1/mcp", "Gemini noru httpUrl must be production endpoint", errors)
+        require("headers" not in noru, "Gemini extension must not inline auth headers", errors)
+
+
 def validate_env_example(errors: list[str]) -> None:
     path = ROOT / ".env.example"
     if not path.is_file():
@@ -212,6 +288,9 @@ def main() -> int:
     validate_claude_metadata(errors)
     validate_skill(errors)
     validate_mcp(errors)
+    validate_registry_server(errors)
+    validate_cursor_metadata(errors)
+    validate_gemini_extension(errors)
     validate_env_example(errors)
     scan_for_secrets(errors)
 
@@ -221,7 +300,7 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    print("OK: repository marketplace, plugin metadata, MCP config, skill, and secret hygiene checks passed")
+    print("OK: repository marketplace, plugin metadata, MCP config, registry entry, Cursor and Gemini manifests, skill, and secret hygiene checks passed")
     return 0
 
 

@@ -1,0 +1,17 @@
+{
+  "name": "compliance-assistant",
+  "owner": {
+    "name": "Noru",
+    "email": "support@noru.tech"
+  },
+  "metadata": {
+    "description": "Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework work through Noru's MCP server. For Noru customers."
+  },
+  "plugins": [
+    {
+      "name": "compliance-assistant",
+      "source": "./plugins/compliance-assistant",
+      "description": "Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework work through Noru's MCP server. For Noru customers."
+    }
+  ]
+}
