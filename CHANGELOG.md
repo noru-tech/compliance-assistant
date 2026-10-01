@@ -8,6 +8,9 @@ All notable changes to this project are documented here. The format is based on
 
 ### Added
 
+- `llms.txt` at the repository root, following the llmstxt.org format: the canonical description,
+  who it is for, install commands for every supported client, the MCP endpoint and links to the
+  client guides, `docs/mcp-registry.md`, `SECURITY.md` and the README's "What it is not".
 - `server.json`: official MCP Registry entry for Noru's remote MCP server (`tech.noru/mcp`,
   streamable HTTP at `https://api.noru.tech/v1/mcp`, optional API-key bearer header for clients
   without OAuth). It is published by a manual-only `publish-mcp-registry` workflow that uses DNS

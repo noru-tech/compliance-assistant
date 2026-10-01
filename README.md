@@ -201,6 +201,7 @@ compliance-assistant/
 │   └── check_repo.py              # Stdlib-only repository checks
 ├── gemini-extension.json          # Gemini CLI extension
 ├── server.json                    # Official MCP Registry entry (tech.noru/mcp)
+├── llms.txt                       # Summary and install paths for AI agents (llmstxt.org format)
 ├── .env.example
 ├── README.md
 ├── LICENSE

@@ -1,0 +1,77 @@
+# compliance-assistant
+
+> Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework work through Noru's MCP server. For Noru customers.
+
+Who it is for: teams that already use Noru. It needs a Noru account and organization, and an authenticated connection to Noru's MCP server; it does nothing on its own. It holds no compliance data, stores no credentials and performs no sign-in. The installed plugin is a skill, MCP configuration and metadata with no executable code.
+
+MCP endpoint (remote, Streamable HTTP, server name `noru`): `https://api.noru.tech/v1/mcp`. Authenticate with OAuth where the client supports it, or with a Noru API key sent as `Authorization: Bearer <NORU_API_KEY>` for manual or headless setup. Never paste tokens or keys into chat. In the official MCP Registry the server is `tech.noru/mcp`.
+
+Install in Claude Code, then configure Noru MCP as the Claude guide below describes:
+
+```text
+/plugin marketplace add noru-tech/compliance-assistant
+/plugin install compliance-assistant@compliance-assistant
+```
+
+Install in Codex:
+
+```bash
+codex plugin marketplace add noru-tech/compliance-assistant
+codex plugin add compliance-assistant@compliance-assistant
+```
+
+Install in GitHub Copilot CLI (it reads the same `.claude-plugin/marketplace.json`), then run `/mcp auth noru`:
+
+```bash
+copilot plugin marketplace add noru-tech/compliance-assistant
+copilot plugin install compliance-assistant@compliance-assistant
+```
+
+Install in Gemini CLI, then run `/mcp auth noru`:
+
+```bash
+gemini extensions install https://github.com/noru-tech/compliance-assistant
+```
+
+Cursor: the repository uses Cursor's plugin layout but is not yet listed in the Cursor Marketplace. Copy `plugins/compliance-assistant/` to `~/.cursor/plugins/local/compliance-assistant/`, then authenticate the `noru` server with OAuth or an API key.
+
+Any other MCP client: add a remote Streamable HTTP server named `noru` at the endpoint above:
+
+```json
+{
+  "mcpServers": {
+    "noru": {
+      "url": "https://api.noru.tech/v1/mcp",
+      "headers": {
+        "Authorization": "Bearer <NORU_API_KEY>"
+      }
+    }
+  }
+}
+```
+
+A good first prompt: "Help me become compliant with SOC 2 using Noru." The assistant reads live Noru context before recommending next steps, and asks for explicit confirmation before any write-like action.
+
+## Client guides
+
+- [Claude Code and Claude Desktop](https://github.com/noru-tech/compliance-assistant/blob/main/clients/claude.md): plugin install, OAuth, API key, Claude Desktop bridge
+- [Codex](https://github.com/noru-tech/compliance-assistant/blob/main/clients/codex.md): marketplace install, authentication, scopes
+- [GitHub Copilot CLI](https://github.com/noru-tech/compliance-assistant/blob/main/clients/copilot.md): marketplace install, `/mcp auth noru`
+- [Gemini CLI](https://github.com/noru-tech/compliance-assistant/blob/main/clients/gemini.md): extension install, OAuth, API key in `settings.json`
+- [Cursor](https://github.com/noru-tech/compliance-assistant/blob/main/clients/cursor.md): local plugin, direct HTTP or stdio bridge
+- [Generic MCP clients](https://github.com/noru-tech/compliance-assistant/blob/main/clients/generic-mcp.md): direct HTTP, stdio bridge, smoke test
+
+## Docs
+
+- [README](https://github.com/noru-tech/compliance-assistant/blob/main/README.md): overview, install, configuration and least-privilege scopes
+- [What it is not](https://github.com/noru-tech/compliance-assistant/blob/main/README.md#what-it-is-not): limits of the plugin
+- [Skill](https://github.com/noru-tech/compliance-assistant/blob/main/plugins/compliance-assistant/skills/compliance-assistant/SKILL.md): the shared assistant workflow
+- [MCP Registry](https://github.com/noru-tech/compliance-assistant/blob/main/docs/mcp-registry.md): how `server.json` (`tech.noru/mcp`) is published
+- [Security policy](https://github.com/noru-tech/compliance-assistant/blob/main/SECURITY.md): private vulnerability reporting, secret handling, threat model
+
+## Optional
+
+- [Changelog](https://github.com/noru-tech/compliance-assistant/blob/main/CHANGELOG.md)
+- [Contributing](https://github.com/noru-tech/compliance-assistant/blob/main/CONTRIBUTING.md)
+- [OpenSSF Best Practices answers](https://github.com/noru-tech/compliance-assistant/blob/main/docs/openssf-best-practices.md)
+- [noru-grc-engineering](https://github.com/noru-tech/noru-grc-engineering): companion plugin for hands-on compliance work in a repository
