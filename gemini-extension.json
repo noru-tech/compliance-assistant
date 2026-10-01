@@ -1,0 +1,12 @@
+{
+  "name": "compliance-assistant",
+  "version": "0.1.1",
+  "description": "Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework work through Noru's MCP server. For Noru customers.",
+  "mcpServers": {
+    "noru": {
+      "httpUrl": "https://api.noru.tech/v1/mcp",
+      "description": "Noru compliance workspace: frameworks, controls, policies, evidence, risks, vendors and assets."
+    }
+  },
+  "contextFileName": "plugins/compliance-assistant/skills/compliance-assistant/SKILL.md"
+}

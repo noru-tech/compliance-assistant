@@ -233,6 +233,24 @@ def validate_cursor_metadata(errors: list[str]) -> None:
         require("headers" not in noru, "Cursor mcp.json must not inline auth headers", errors)
 
 
+def validate_gemini_extension(errors: list[str]) -> None:
+    """Check gemini-extension.json (google-gemini/gemini-cli docs/extensions/reference.md)."""
+    payload = load_json(ROOT / "gemini-extension.json", errors)
+    manifest = load_json(PLUGIN_ROOT / ".claude-plugin" / "plugin.json", errors)
+    require(payload.get("name") == "compliance-assistant", "Gemini extension name must be compliance-assistant", errors)
+    require(payload.get("version") == manifest.get("version"), "Gemini extension version must match plugin manifest", errors)
+
+    context = payload.get("contextFileName")
+    require(isinstance(context, str) and (ROOT / context).is_file(), "Gemini contextFileName must point at an existing file", errors)
+
+    servers = payload.get("mcpServers")
+    noru = servers.get("noru") if isinstance(servers, dict) else None
+    require(isinstance(noru, dict), "Gemini extension must include noru MCP server", errors)
+    if isinstance(noru, dict):
+        require(noru.get("httpUrl") == "https://api.noru.tech/v1/mcp", "Gemini noru httpUrl must be production endpoint", errors)
+        require("headers" not in noru, "Gemini extension must not inline auth headers", errors)
+
+
 def validate_env_example(errors: list[str]) -> None:
     path = ROOT / ".env.example"
     if not path.is_file():
@@ -272,6 +290,7 @@ def main() -> int:
     validate_mcp(errors)
     validate_registry_server(errors)
     validate_cursor_metadata(errors)
+    validate_gemini_extension(errors)
     validate_env_example(errors)
     scan_for_secrets(errors)
 
@@ -281,7 +300,7 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    print("OK: repository marketplace, plugin metadata, MCP config, registry entry, Cursor manifests, skill, and secret hygiene checks passed")
+    print("OK: repository marketplace, plugin metadata, MCP config, registry entry, Cursor and Gemini manifests, skill, and secret hygiene checks passed")
     return 0
 
 
