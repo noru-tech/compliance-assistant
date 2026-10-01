@@ -14,6 +14,8 @@ All notable changes to this project are documented here. The format is based on
 
 ### Changed
 
+- README: the version badge reads the plugin's own version from `plugin.json`; the repository
+  publishes tags but no GitHub Releases, so the release badge showed "no releases".
 - README now opens with the canonical description, a badge row, a "Who it is for" line, install
   commands near the top, and "What it is not" and "Trust" sections.
 - Plugin and marketplace manifest descriptions use the canonical description.
