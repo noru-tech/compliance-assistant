@@ -11,6 +11,8 @@ All notable changes to this project are documented here. The format is based on
 - `llms.txt` at the repository root, following the llmstxt.org format: the canonical description,
   who it is for, install commands for every supported client, the MCP endpoint and links to the
   client guides, `docs/mcp-registry.md`, `SECURITY.md` and the README's "What it is not".
+- `docs/openssf-best-practices.md`: prepared answers for the OpenSSF Best Practices "passing" criteria,
+  each Met, Unmet or N/A with evidence. One MUST (`test_policy`) is still Unmet.
 - `server.json`: official MCP Registry entry for Noru's remote MCP server (`tech.noru/mcp`,
   streamable HTTP at `https://api.noru.tech/v1/mcp`, optional API-key bearer header for clients
   without OAuth). It is published by a manual-only `publish-mcp-registry` workflow that uses DNS

@@ -183,7 +183,8 @@ compliance-assistant/
 │   ├── cursor.md
 │   └── generic-mcp.md
 ├── docs/
-│   └── mcp-registry.md            # Publishing server.json to the MCP Registry
+│   ├── mcp-registry.md            # Publishing server.json to the MCP Registry
+│   └── openssf-best-practices.md  # Prepared OpenSSF Best Practices badge answers
 ├── plugins/
 │   └── compliance-assistant/
 │       ├── .codex-plugin/
