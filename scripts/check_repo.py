@@ -175,6 +175,35 @@ def validate_mcp(errors: list[str]) -> None:
             require("OAuth" in note and "NORU_API_KEY" in note, ".mcp.json note must document OAuth and API-key auth options", errors)
 
 
+def validate_registry_server(errors: list[str]) -> None:
+    """Check server.json, the official MCP Registry entry for the remote server.
+
+    Field names and limits follow the registry's 2025-12-11 server.json schema
+    (modelcontextprotocol/registry internal/validators/schemas/2025-12-11.json).
+    """
+    payload = load_json(ROOT / "server.json", errors)
+    if not payload:
+        return
+    manifest = load_json(PLUGIN_ROOT / ".claude-plugin" / "plugin.json", errors)
+    description = payload.get("description")
+
+    require(payload.get("$schema") == "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json", "server.json $schema must be the 2025-12-11 registry schema", errors)
+    require(payload.get("name") == "tech.noru/mcp", "server.json name must be tech.noru/mcp", errors)
+    require(isinstance(description, str) and 1 <= len(description) <= 100, "server.json description must be 1-100 characters", errors)
+    require(payload.get("version") == manifest.get("version"), "server.json version must match plugin manifest", errors)
+    require("packages" not in payload, "server.json describes the remote server only and must not list packages", errors)
+
+    remotes = payload.get("remotes")
+    require(isinstance(remotes, list) and len(remotes) == 1, "server.json must contain exactly one remote", errors)
+    if isinstance(remotes, list) and remotes and isinstance(remotes[0], dict):
+        remote = remotes[0]
+        require(remote.get("type") == "streamable-http", "server.json remote type must be streamable-http", errors)
+        require(remote.get("url") == "https://api.noru.tech/v1/mcp", "server.json remote URL must be production endpoint", errors)
+        for header in remote.get("headers", []):
+            require(header.get("isSecret") is True, "server.json remote headers must be marked isSecret", errors)
+            require(header.get("isRequired") is False, "server.json auth header must be optional so OAuth clients need no API key", errors)
+
+
 def validate_env_example(errors: list[str]) -> None:
     path = ROOT / ".env.example"
     if not path.is_file():
@@ -212,6 +241,7 @@ def main() -> int:
     validate_claude_metadata(errors)
     validate_skill(errors)
     validate_mcp(errors)
+    validate_registry_server(errors)
     validate_env_example(errors)
     scan_for_secrets(errors)
 
@@ -221,7 +251,7 @@ def main() -> int:
             print(f"- {error}")
         return 1
 
-    print("OK: repository marketplace, plugin metadata, MCP config, skill, and secret hygiene checks passed")
+    print("OK: repository marketplace, plugin metadata, MCP config, registry entry, skill, and secret hygiene checks passed")
     return 0
 
 
