@@ -25,17 +25,13 @@ Repository: <https://github.com/noru-tech/compliance-assistant>. Evidence links 
 
 ## Summary
 
-Against the 67 current passing criteria: **44 Met, 7 Unmet, 16 N/A**. The only Unmet MUST is
-`test_policy`. The badge needs every MUST to be Met or N/A, so that one blocks it; the rest are SHOULD
-or SUGGESTED.
+Against the 67 current passing criteria: **47 Met, 4 Unmet, 16 N/A**. Every MUST is Met or N/A;
+the remaining Unmet criteria are SHOULD or SUGGESTED.
 
 | Unmet | Level | What would change it |
 | --- | --- | --- |
-| `test_policy` | MUST | One sentence in CONTRIBUTING.md: new manifests or checked behaviour come with a check in `scripts/check_repo.py`. |
-| `tests_documented_added` | SUGGESTED | The same sentence, in the contribution instructions. |
 | `test_invocation` | SHOULD | Make the checks runnable with `python3 -m unittest`, or accept that a stdlib script has no standard runner. |
 | `test_most` | SUGGESTED | The checks cover manifests and secret hygiene, not the skill's prose instructions. |
-| `test_continuous_integration` | SUGGESTED | A workflow that runs `python3 scripts/check_repo.py` on pull requests and `main`. |
 | `dynamic_analysis` | SUGGESTED | No runtime code to analyse. N/A is not allowed for this criterion. |
 | `dynamic_analysis_enable_assertions` | SUGGESTED | As above. |
 
@@ -94,10 +90,10 @@ or SUGGESTED.
 | `test` | MUST | Met | `scripts/check_repo.py` is an MIT-licensed, stdlib-only automated check of the marketplace and plugin manifests, MCP configuration, registry entry, skill frontmatter, version consistency and secret hygiene. How to run it: <https://github.com/noru-tech/compliance-assistant/blob/main/CONTRIBUTING.md#development--testing>. It validates structure. It does not test the skill's behaviour inside an AI client. |
 | `test_invocation` | SHOULD | Unmet | The check runs as `python3 scripts/check_repo.py`, not through a standard runner such as `python3 -m unittest`. |
 | `test_most` | SUGGESTED | Unmet | Every manifest and config file is covered. The skill is natural-language instructions, which the check cannot exercise. |
-| `test_continuous_integration` | SUGGESTED | Unmet | CI runs CodeQL and OpenSSF Scorecard, but no workflow runs `scripts/check_repo.py`. The pull request template asks contributors to run it: <https://github.com/noru-tech/compliance-assistant/blob/main/.github/PULL_REQUEST_TEMPLATE.md> |
-| `test_policy` | MUST | Unmet | In practice new manifests get new checks, but the policy is not written down. CONTRIBUTING.md says to run the checker and keep manifest versions in step, not to add checks. |
+| `test_continuous_integration` | SUGGESTED | Met | `.github/workflows/check.yml` runs `scripts/check_repo.py` on every pull request and push to `main`: <https://github.com/noru-tech/compliance-assistant/blob/main/.github/workflows/check.yml> |
+| `test_policy` | MUST | Met | CONTRIBUTING.md "Test policy": a change that adds a manifest, field or checkable behaviour must add the matching check to `scripts/check_repo.py` in the same pull request: <https://github.com/noru-tech/compliance-assistant/blob/main/CONTRIBUTING.md#development--testing> |
 | `tests_are_added` | MUST | Met | Each new manifest came with checks. The MCP Registry, Gemini CLI and Cursor manifests were added together with checks for them in #9 (<https://github.com/noru-tech/compliance-assistant/commit/90104e6>). The checker itself was added in <https://github.com/noru-tech/compliance-assistant/commit/4193b59>. |
-| `tests_documented_added` | SUGGESTED | Unmet | Not documented in the contribution instructions (see `test_policy`). |
+| `tests_documented_added` | SUGGESTED | Met | The test policy is in the contribution instructions: <https://github.com/noru-tech/compliance-assistant/blob/main/CONTRIBUTING.md#development--testing> |
 | `warnings` | MUST | Met | The shipped payload is JSON and Markdown with YAML frontmatter. `scripts/check_repo.py` acts as its linter: it parses every manifest and checks required fields, paths, endpoint and versions. CodeQL also analyses the Python and workflow code. No Python linter such as ruff runs on the checker itself. |
 | `warnings_fixed` | MUST | Met | The check exits non-zero on any finding, and `main` passes. |
 | `warnings_strict` | SUGGESTED | Met | Every finding fails the check. There is no warning-only level. |

@@ -8,6 +8,8 @@ All notable changes to this project are documented here. The format is based on
 
 ### Added
 
+- `.github/workflows/check.yml` runs `scripts/check_repo.py` on every pull request and on `main`,
+  and CONTRIBUTING states the test policy: new manifests or checkable behaviour come with a check.
 - `llms.txt` at the repository root, following the llmstxt.org format: the canonical description,
   who it is for, install commands for every supported client, the MCP endpoint and links to the
   client guides, `docs/mcp-registry.md`, `SECURITY.md` and the README's "What it is not".

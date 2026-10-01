@@ -42,7 +42,11 @@ python3 scripts/check_repo.py
 
 This validates the Codex marketplace, installable plugin metadata, Claude and Cursor marketplace
 metadata, the Gemini extension manifest, the MCP Registry `server.json`, MCP config, skill
-frontmatter, placeholder environment config, and basic secret hygiene.
+frontmatter, placeholder environment config, and basic secret hygiene. CI runs it on every pull
+request (`.github/workflows/check.yml`).
+
+**Test policy:** a pull request that adds a manifest, a manifest field or any other behaviour the
+checker can verify must add the matching check to `scripts/check_repo.py` in the same pull request.
 
 For local Codex installability, run:
 
