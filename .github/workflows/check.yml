@@ -1,0 +1,28 @@
+# Runs the repository's stdlib-only checker (scripts/check_repo.py) on every pull request and on
+# main: marketplaces, plugin metadata, the MCP Registry server.json, Gemini and Cursor manifests,
+# MCP config, skill frontmatter and secret hygiene.
+name: check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: check_repo
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - run: python3 scripts/check_repo.py

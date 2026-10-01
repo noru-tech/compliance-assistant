@@ -11,7 +11,10 @@ Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework wo
 **Who it is for:** teams that already use Noru. It needs a Noru account and organization, and an
 authenticated connection to Noru's MCP server; it does nothing on its own.
 
-## Install
+## Which AI clients does it work with?
+
+Claude Code, Codex, GitHub Copilot CLI, Gemini CLI and Cursor, plus any MCP client that can reach a
+remote Streamable HTTP server. Install it in your client with the commands below.
 
 ### Claude Code
 
@@ -56,14 +59,15 @@ The repository uses Cursor's plugin layout (`.cursor-plugin/`) but is not yet li
 Marketplace. Cursor and other MCP clients can connect to the same Noru MCP server; see
 [Cursor](./clients/cursor.md) and [Generic MCP clients](./clients/generic-mcp.md).
 
-### MCP Registry
+### Is Noru's MCP server in the MCP Registry?
 
-Noru's remote MCP server is described for the official MCP Registry as `tech.noru/mcp` in
+Yes, as `tech.noru/mcp`. Noru's remote MCP server is described for the official MCP Registry in
 [`server.json`](./server.json). See [docs/mcp-registry.md](./docs/mcp-registry.md) for how it is
 published.
 
-## What it is
+## What does it do?
 
+It guides your SOC 2, ISO 27001 or other framework work using your live Noru data.
 `compliance-assistant` is an open source assistant package for Noru customers. It packages a shared
 agent skill and client setup docs for working with Noru over MCP, with installable metadata for
 Codex and Claude Code.
@@ -90,9 +94,10 @@ the next best sequence of controls, policies, evidence, risks, and roadmap work.
 - A minimal configuration model: customers authenticate the Noru MCP connection with OAuth where
   their client supports it, or with `NORU_API_KEY` for manual/headless setup.
 
-## Configuration
+## How do I connect my AI assistant to Noru?
 
-The public package connects to Noru's hosted MCP endpoint at `https://api.noru.tech/v1/mcp`.
+Connect your client to Noru's hosted MCP endpoint at `https://api.noru.tech/v1/mcp` and authenticate
+with OAuth or a Noru API key.
 
 The plugin does not store secrets or perform sign-in itself. Authentication is managed by the MCP
 host or client. If that client already has an authenticated `noru` MCP connection, this plugin can
@@ -132,9 +137,9 @@ See the client guides:
 - [Cursor](./clients/cursor.md)
 - [Generic MCP clients](./clients/generic-mcp.md)
 
-## How It Works
+## How does it decide what to do next?
 
-The skill starts by discovering real Noru context instead of guessing:
+It reads your organization's real Noru context first instead of guessing:
 
 1. Read organization context.
 2. Read enabled frameworks and framework compliance overview.
@@ -178,7 +183,8 @@ compliance-assistant/
 │   ├── cursor.md
 │   └── generic-mcp.md
 ├── docs/
-│   └── mcp-registry.md            # Publishing server.json to the MCP Registry
+│   ├── mcp-registry.md            # Publishing server.json to the MCP Registry
+│   └── openssf-best-practices.md  # Prepared OpenSSF Best Practices badge answers
 ├── plugins/
 │   └── compliance-assistant/
 │       ├── .codex-plugin/
@@ -196,6 +202,7 @@ compliance-assistant/
 │   └── check_repo.py              # Stdlib-only repository checks
 ├── gemini-extension.json          # Gemini CLI extension
 ├── server.json                    # Official MCP Registry entry (tech.noru/mcp)
+├── llms.txt                       # Summary and install paths for AI agents (llmstxt.org format)
 ├── .env.example
 ├── README.md
 ├── LICENSE
@@ -218,7 +225,10 @@ They are deliberately separate and install side by side. This one is useful with
 all, in any MCP client; those need a git work tree, write `.noru/*.yml` into it, and run in CI on a
 pull request.
 
-## Trust
+## Does it collect data or run code?
+
+No. It has no telemetry, the installed plugin contains no executable code, and it talks only to the
+Noru MCP server your client is configured for.
 
 - MIT licensed; see [LICENSE](./LICENSE).
 - Report vulnerabilities privately; see [SECURITY.md](./SECURITY.md).

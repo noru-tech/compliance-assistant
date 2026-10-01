@@ -8,6 +8,13 @@ All notable changes to this project are documented here. The format is based on
 
 ### Added
 
+- `.github/workflows/check.yml` runs `scripts/check_repo.py` on every pull request and on `main`,
+  and CONTRIBUTING states the test policy: new manifests or checkable behaviour come with a check.
+- `llms.txt` at the repository root, following the llmstxt.org format: the canonical description,
+  who it is for, install commands for every supported client, the MCP endpoint and links to the
+  client guides, `docs/mcp-registry.md`, `SECURITY.md` and the README's "What it is not".
+- `docs/openssf-best-practices.md`: prepared answers for the OpenSSF Best Practices "passing" criteria,
+  each Met, Unmet or N/A with evidence. One MUST (`test_policy`) is still Unmet.
 - `server.json`: official MCP Registry entry for Noru's remote MCP server (`tech.noru/mcp`,
   streamable HTTP at `https://api.noru.tech/v1/mcp`, optional API-key bearer header for clients
   without OAuth). It is published by a manual-only `publish-mcp-registry` workflow that uses DNS
@@ -30,6 +37,10 @@ All notable changes to this project are documented here. The format is based on
 
 ### Changed
 
+- README: several headings are now the questions people ask ("Which AI clients does it work with?",
+  "How do I connect my AI assistant to Noru?", "What does it do?", "How does it decide what to do
+  next?", "Does it collect data or run code?"), each answered in its first sentence. Content and order
+  are unchanged.
 - README: the version badge reads the plugin's own version from `plugin.json`; the repository
   publishes tags but no GitHub Releases, so the release badge showed "no releases".
 - README now opens with the canonical description, a badge row, a "Who it is for" line, install
