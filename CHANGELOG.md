@@ -30,6 +30,10 @@ All notable changes to this project are documented here. The format is based on
 
 ### Changed
 
+- README: several headings are now the questions people ask ("Which AI clients does it work with?",
+  "How do I connect my AI assistant to Noru?", "What does it do?", "How does it decide what to do
+  next?", "Does it collect data or run code?"), each answered in its first sentence. Content and order
+  are unchanged.
 - README: the version badge reads the plugin's own version from `plugin.json`; the repository
   publishes tags but no GitHub Releases, so the release badge showed "no releases".
 - README now opens with the canonical description, a badge row, a "Who it is for" line, install
