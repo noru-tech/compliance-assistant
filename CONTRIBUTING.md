@@ -38,6 +38,9 @@ metadata, two shared skills, an eval suite, client docs, and security-focused se
 - Skill frontmatter follows the Agent Skills spec: only `name`, `description`, `license`,
   `compatibility`, `metadata` and `allowed-tools`. The version goes in `metadata.version`.
 - Each skill has `agents/openai.yaml` with its Codex display metadata.
+- Anthropic's plugin directory accepts only Markdown, text, JSON, YAML and PNG/JPEG/GIF/WebP/ICO
+  files in the plugin folder from unverified organizations. Never add `.svg` files or scripts there;
+  the checker fails if you do.
 - `plugins/compliance-assistant/evals/` holds `claude plugin eval` cases.
 - `clients/` contains setup docs for MCP clients.
 

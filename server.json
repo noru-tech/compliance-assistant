@@ -3,7 +3,7 @@
   "name": "tech.noru/mcp",
   "title": "Noru",
   "description": "Noru compliance workspace: frameworks, controls, policies, evidence, risks, vendors and assets.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "websiteUrl": "https://noru.tech",
   "repository": {
     "url": "https://github.com/noru-tech/compliance-assistant",
