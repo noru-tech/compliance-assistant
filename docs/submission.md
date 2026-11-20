@@ -9,7 +9,7 @@ marketplace add`, `codex plugin marketplace add`) work without any of this.
 | Item | Where |
 | --- | --- |
 | Display name, description, keywords | `plugins/compliance-assistant/.claude-plugin/plugin.json`, `.codex-plugin/plugin.json` |
-| Icon / logo, composer icon | `plugins/compliance-assistant/assets/` (square, at least 48 px) |
+| Icon / logo, composer icon | `plugins/compliance-assistant/assets/`: `logo.png` 512 px, `composer-icon.png` 192 px, both square PNGs |
 | Website, documentation, support, privacy, terms URLs | both plugin manifests |
 | Starter prompts (at most 3, each at most 128 characters) | Codex `interface.defaultPrompt` |
 | Onboarding skill | `skills/noru-setup/` (Codex `interface.onboardingSkill`) |
@@ -19,6 +19,13 @@ marketplace add`, `codex plugin marketplace add`) work without any of this.
 | Automated validation | `python3 scripts/check_repo.py`, `claude plugin validate --strict` (CI) |
 
 ## Anthropic plugin directory
+
+Noru is not a Verified organization in the directory, so the plugin folder may only contain Markdown,
+text, JSON, YAML and PNG/JPEG/GIF/WebP/ICO files. That means no `.svg`, no scripts and nothing
+starting with `#!`. The icon must be a square PNG or JPEG of 512 to 2048 px, under 2 MB. The
+directory only adopts the icon the first time the plugin is saved or submitted, so if the listing
+still has no icon, set it under **Edit** on the submission. `scripts/check_repo.py` enforces these
+rules.
 
 Source: <https://claude.com/docs/plugins/submit>, pre-submission checklist at
 <https://claude.com/docs/plugins/pre-submission-checklist>.

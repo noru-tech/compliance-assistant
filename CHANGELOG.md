@@ -6,6 +6,21 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-20
+
+### Fixed
+
+- Anthropic's plugin directory refused 0.2.0 because the plugin shipped an `.svg` file, which it
+  accepts only from Verified organizations. The Codex composer icon is now
+  `assets/composer-icon.png` (192 px), and `assets/composer-icon.svg` is removed.
+- The plugin icon (`assets/logo.png`) is now 512 px square. The directory needs 512 to 2048 px.
+
+### Added
+
+- `scripts/check_repo.py` enforces the directory's file rules for unverified organizations. Only
+  Markdown, text, JSON, YAML and PNG/JPEG/GIF/WebP/ICO files are allowed in the plugin, with no `#!`
+  lines, NUL bytes or non-UTF-8 text, and the icon must be a square PNG of 512 to 2048 px.
+
 ## [0.2.0] - 2026-11-20
 
 ### Added
@@ -16,7 +31,8 @@ All notable changes to this project are documented here. The format is based on
 - `references/` for the main skill: `tools.md` (every Noru MCP tool and its scope, contract 1.1.0),
   `scopes-and-toolsets.md`, `workflows.md` and `safe-actions.md`.
 - Codex skill metadata (`agents/openai.yaml`) for both skills, with the `noru` MCP dependency.
-- Plugin icons (`assets/logo.png`, `assets/composer-icon.svg`) and brand color.
+- Plugin icons (`assets/logo.png`, `assets/composer-icon.svg`) and brand color. 0.2.1 replaced
+  the SVG with a PNG.
 - Listing fields for the Anthropic and OpenAI plugin directories: icon, documentation, support,
   privacy policy and terms URLs; Codex `supportURL`, `onboardingSkill`, `brandColor`, `logo` and
   `composerIcon`; Claude marketplace `displayName` and `tags`.
@@ -108,7 +124,8 @@ All notable changes to this project are documented here. The format is based on
 - Public repo hygiene files and placeholder-only environment example.
 - `scripts/check_repo.py` for stdlib-only repository, marketplace, plugin, and secret-hygiene checks.
 
-[Unreleased]: https://github.com/noru-tech/compliance-assistant/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/noru-tech/compliance-assistant/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/noru-tech/compliance-assistant/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/noru-tech/compliance-assistant/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/noru-tech/compliance-assistant/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/noru-tech/compliance-assistant/releases/tag/v0.1.0

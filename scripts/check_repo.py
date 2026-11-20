@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import re
+import struct
 from pathlib import Path
 
 
@@ -31,6 +32,10 @@ SECRET_PATTERNS = [
     re.compile(r"ghp_[A-Za-z0-9]{16,}"),
     re.compile(r"github_pat_[A-Za-z0-9_]{16,}"),
 ]
+# File types Anthropic's plugin directory accepts from organizations that are not Verified:
+# Markdown, text, JSON, YAML and PNG/JPEG/GIF/WebP/ICO images. No .svg (not even for icons in
+# other tools' manifests), no scripts, nothing that starts with #!.
+DIRECTORY_ALLOWED_SUFFIXES = {".md", ".txt", ".json", ".yaml", ".yml", ".png", ".jpg", ".jpeg", ".gif", ".webp", ".ico"}
 HEX_COLOR_RE = re.compile(r"^#[0-9A-Fa-f]{6}$")
 SKILL_NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 # Frontmatter keys allowed by the Agent Skills specification (agentskills.io/specification),
@@ -272,6 +277,41 @@ def validate_skills(errors: list[str]) -> None:
                 require((PLUGIN_ROOT / icon).is_file(), f"{openai_yaml.relative_to(ROOT)} icon {icon} must exist in the plugin root", errors)
 
 
+def png_size(path: Path) -> tuple[int, int] | None:
+    data = path.read_bytes()[:24]
+    if len(data) < 24 or data[:8] != b"\x89PNG\r\n\x1a\n" or data[12:16] != b"IHDR":
+        return None
+    return struct.unpack(">II", data[16:24])
+
+
+def validate_directory_policy(errors: list[str]) -> None:
+    """Rules the Anthropic plugin directory enforces for organizations that are not Verified."""
+    for path in sorted(PLUGIN_ROOT.rglob("*")):
+        if path.is_dir() or path.name == ".DS_Store":
+            continue
+        rel = path.relative_to(ROOT)
+        require(path.suffix.lower() in DIRECTORY_ALLOWED_SUFFIXES, f"{rel}: the plugin directory only accepts Markdown, text, JSON, YAML and PNG/JPEG/GIF/WebP/ICO files from unverified organizations", errors)
+        if path.suffix.lower() in {".md", ".txt", ".json", ".yaml", ".yml"}:
+            raw = path.read_bytes()
+            require(not raw.startswith(b"#!"), f"{rel} must not start with #!", errors)
+            require(b"\x00" not in raw, f"{rel} must not contain NUL bytes", errors)
+            try:
+                raw.decode("utf-8")
+            except UnicodeDecodeError:
+                errors.append(f"{rel} must be UTF-8")
+
+    manifest = load_json(PLUGIN_ROOT / ".claude-plugin" / "plugin.json", errors)
+    icon = manifest.get("icon")
+    if isinstance(icon, str) and (PLUGIN_ROOT / icon).is_file():
+        icon_path = PLUGIN_ROOT / icon
+        size = png_size(icon_path)
+        require(size is not None, "Claude plugin icon must be a PNG", errors)
+        if size is not None:
+            width, height = size
+            require(width == height and 512 <= width <= 2048, f"Claude plugin icon must be a square PNG of 512-2048 px (is {width}x{height})", errors)
+        require(icon_path.stat().st_size < 2 * 1024 * 1024, "Claude plugin icon must be under 2 MB", errors)
+
+
 def validate_mcp(errors: list[str]) -> None:
     payload = load_json(PLUGIN_ROOT / ".mcp.json", errors)
     servers = payload.get("mcpServers")
@@ -399,6 +439,7 @@ def main() -> int:
     validate_codex_plugin(errors)
     validate_claude_metadata(errors)
     validate_skills(errors)
+    validate_directory_policy(errors)
     validate_mcp(errors)
     validate_registry_server(errors)
     validate_cursor_metadata(errors)

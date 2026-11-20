@@ -3,7 +3,7 @@ name: compliance-assistant
 description: Guides Noru customers through SOC 2, ISO 27001, GDPR and other framework compliance using live data from the Noru MCP server. Use when the user asks what to do next for a framework, wants a gap analysis, roadmap or audit-readiness check, asks whether a control, policy, evidence item, risk, vendor or privacy record is sufficient, or wants to update controls, policies, evidence, risks or vendors in Noru.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # Noru Compliance Assistant

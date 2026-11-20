@@ -3,7 +3,7 @@ name: noru-setup
 description: Connects and checks the Noru MCP server for the compliance assistant. Use when the user is setting up the Noru plugin, when no noru tools are available, when a Noru call fails with 401, 403 or a missing-scope error, when the wrong organization appears, or when the user asks what the Noru connection can do.
 license: MIT
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # Noru setup and connection check
