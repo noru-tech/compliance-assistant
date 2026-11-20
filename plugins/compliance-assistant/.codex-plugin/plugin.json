@@ -32,7 +32,7 @@
     "shortDescription": "Compliance guidance from Noru",
     "longDescription": "Noru Compliance Assistant guides SOC 2, ISO 27001, GDPR and other framework work using your live Noru data: what to do next, where the gaps are, whether a control or policy is sufficient, and how ready you are for audit. It reads your organization, frameworks, controls, policies, evidence, risks, vendors and privacy records through the Noru MCP server, and asks for your confirmation before it changes anything in Noru. Requires a Noru account.",
     "developerName": "Noru",
-    "category": "Productivity",
+    "category": "Business & Operations",
     "capabilities": [
       "Framework next steps and sequencing",
       "Gap analysis for SOC 2, ISO 27001 and GDPR",
