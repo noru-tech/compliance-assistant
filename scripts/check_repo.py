@@ -298,8 +298,9 @@ def validate_skills(errors: list[str]) -> None:
             content = openai_yaml.read_text(encoding="utf-8")
             require(f"${path.parent.name}" in content, f"{openai_yaml.relative_to(ROOT)} default_prompt must mention ${path.parent.name}", errors)
             require('value: "noru"' in content, f"{openai_yaml.relative_to(ROOT)} must declare the noru MCP dependency", errors)
+            # The OpenAI portal resolves these paths relative to the skill folder.
             for icon in re.findall(r'icon_(?:small|large):\s*"([^"]+)"', content):
-                require((PLUGIN_ROOT / icon).is_file(), f"{openai_yaml.relative_to(ROOT)} icon {icon} must exist in the plugin root", errors)
+                require((path.parent / icon).resolve().is_file(), f"{openai_yaml.relative_to(ROOT)} icon {icon} must exist relative to the skill folder", errors)
 
 
 def png_size(path: Path) -> tuple[int, int] | None:
