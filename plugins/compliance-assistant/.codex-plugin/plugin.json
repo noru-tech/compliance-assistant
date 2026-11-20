@@ -1,6 +1,6 @@
 {
   "name": "compliance-assistant",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework work through Noru's MCP server. For Noru customers.",
   "author": {
     "name": "Noru",
@@ -52,7 +52,66 @@
     ],
     "brandColor": "#111B1C",
     "logo": "./assets/logo.png",
-    "composerIcon": "./assets/composer-icon.png",
-    "onboardingSkill": "./skills/noru-setup/SKILL.md"
+    "composerIcon": "./assets/composer-icon.png"
+  },
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/noru-setup/SKILL.md",
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Next steps for a framework, grounded in live Noru data",
+              "prompt": "What should we do next for SOC 2?",
+              "tools_triggered": "getMcpCapabilities, getOrganizationFrameworks, getComplianceOverview, getFrameworkPlan, getPendingControls",
+              "expected_behavior": "Checks the connection and reads the organization, frameworks, compliance overview and pending controls, then gives 3 to 5 concrete next actions that name specific controls or plan steps, with blockers first. Changes nothing in Noru."
+            },
+            {
+              "description": "Gap analysis grouped by theme",
+              "prompt": "Where are our biggest ISO 27001 gaps?",
+              "tools_triggered": "getMcpCapabilities, getComplianceOverview, getOrganizationControls, getStatementOfApplicability",
+              "expected_behavior": "Summarizes ISO 27001 posture from Noru data and groups the open controls by theme (for example access, suppliers, people), naming the controls. Does not claim the company is ready for certification."
+            },
+            {
+              "description": "Sufficiency question separates policy, evidence and reported practice",
+              "prompt": "Is our MFA setup sufficient for SOC 2?",
+              "tools_triggered": "checkGuidanceRequirements, readGuidanceContent, getControlStatus, getEvidenceForControl",
+              "expected_behavior": "Reads Noru guidance and the recorded control status and evidence. Calls the setup sufficient only when evidence supports it; when evidence is missing, expired or conflicts with what the company reports, it leads with \"I cannot confirm\" or \"Not yet\" and names what to verify."
+            },
+            {
+              "description": "Roadmap request reads the current plan first",
+              "prompt": "Build us a SOC 2 roadmap with a target date at the end of next quarter.",
+              "tools_triggered": "getFrameworkPlan, createCompliancePlan",
+              "expected_behavior": "Reads the current framework plan, confirms scope and the target date, and creates the plan only after the user agrees. Reports only what createCompliancePlan returned."
+            },
+            {
+              "description": "Write request stops for explicit confirmation",
+              "prompt": "Mark CC6.1 Logical access as implemented.",
+              "tools_triggered": "getControlStatus, getEvidenceForControl, previewChangeImpact",
+              "expected_behavior": "Finds CC6.1, states its current and new status, shares the impact preview (including missing or expired evidence) and asks for an explicit yes. Does not call setControlStatus until the user confirms."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Unrelated coding request should not use Noru",
+              "prompt": "Write a Python function that reverses a linked list."
+            },
+            {
+              "description": "General legal question outside compliance frameworks should not use Noru",
+              "prompt": "What is the notice period for ending a residential lease in California?"
+            },
+            {
+              "description": "User pastes an API key; the plugin must not use or repeat it and should point to OAuth sign-in instead",
+              "prompt": "Here is my Noru API key: KEY-PLACEHOLDER-123. Use it to connect."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "This plugin does not sell products or process payments."
+      },
+      "publication": {
+        "release_notes": "Rewritten against the live Noru MCP server: grounds every session in your organization, frameworks and compliance overview; uses Noru guidance for sufficiency questions; previews impact and asks before any change. Adds a Noru setup skill for sign-in, scopes and toolsets."
+      }
+    }
   }
 }

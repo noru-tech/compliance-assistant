@@ -151,8 +151,33 @@ def validate_codex_plugin(errors: list[str]) -> None:
             value = interface.get(field)
             if value is not None:
                 require(isinstance(value, str) and HEX_COLOR_RE.fullmatch(value) is not None, f"Codex interface.{field} must be a #RRGGBB color", errors)
-        onboarding = interface.get("onboardingSkill")
-        require(isinstance(onboarding, str) and (PLUGIN_ROOT / onboarding).is_file(), "Codex interface.onboardingSkill must point at an existing SKILL.md", errors)
+        require("onboardingSkill" not in interface, "Codex onboardingSkill belongs under extensions.com.openai, not interface", errors)
+
+    # Onboarding, review and publication data live under extensions.com.openai
+    # (developers.openai.com/plugins/deploy/submission, "Configure onboarding, review, and publication").
+    extensions = manifest.get("extensions")
+    openai = extensions.get("com.openai") if isinstance(extensions, dict) else None
+    require(isinstance(openai, dict), "Codex plugin must include extensions.com.openai", errors)
+    if not isinstance(openai, dict):
+        return
+    onboarding = openai.get("onboardingSkill")
+    require(isinstance(onboarding, str) and onboarding.startswith("./") and (PLUGIN_ROOT / onboarding).is_file(), "Codex extensions.com.openai.onboardingSkill must point at an existing SKILL.md", errors)
+    review = openai.get("review") if isinstance(openai.get("review"), dict) else {}
+    cases = review.get("test_cases") if isinstance(review.get("test_cases"), dict) else {}
+    positive, negative = cases.get("positive"), cases.get("negative")
+    require(isinstance(positive, list) and len(positive) == 5, "Codex review needs exactly 5 positive test cases", errors)
+    require(isinstance(negative, list) and len(negative) == 3, "Codex review needs exactly 3 negative test cases", errors)
+    known_tools: set[str] = set()
+    if TOOLS_REFERENCE.is_file():
+        known_tools = set(re.findall(r"`([a-z][A-Za-z]+)`", TOOLS_REFERENCE.read_text(encoding="utf-8")))
+    for case in positive if isinstance(positive, list) else []:
+        require(all(isinstance(case.get(k), str) and case[k] for k in ("description", "prompt", "tools_triggered", "expected_behavior")), "each positive review case needs description, prompt, tools_triggered and expected_behavior", errors)
+        for tool in (t.strip() for t in str(case.get("tools_triggered", "")).split(",")):
+            require(tool in known_tools, f"Codex review case names unknown tool {tool!r}", errors)
+    for case in negative if isinstance(negative, list) else []:
+        require(all(isinstance(case.get(k), str) and case[k] for k in ("description", "prompt")), "each negative review case needs description and prompt", errors)
+    for forbidden in ("test_credentials", "reviewer_instructions"):
+        require(forbidden not in review, f"Codex review must not include {forbidden}; enter reviewer access in the dashboard", errors)
 
 
 def validate_claude_metadata(errors: list[str]) -> None:
@@ -273,8 +298,9 @@ def validate_skills(errors: list[str]) -> None:
             content = openai_yaml.read_text(encoding="utf-8")
             require(f"${path.parent.name}" in content, f"{openai_yaml.relative_to(ROOT)} default_prompt must mention ${path.parent.name}", errors)
             require('value: "noru"' in content, f"{openai_yaml.relative_to(ROOT)} must declare the noru MCP dependency", errors)
+            # The OpenAI portal resolves these paths relative to the skill folder.
             for icon in re.findall(r'icon_(?:small|large):\s*"([^"]+)"', content):
-                require((PLUGIN_ROOT / icon).is_file(), f"{openai_yaml.relative_to(ROOT)} icon {icon} must exist in the plugin root", errors)
+                require((path.parent / icon).resolve().is_file(), f"{openai_yaml.relative_to(ROOT)} icon {icon} must exist relative to the skill folder", errors)
 
 
 def png_size(path: Path) -> tuple[int, int] | None:
@@ -325,6 +351,25 @@ def validate_mcp(errors: list[str]) -> None:
             require("headers" not in noru, "committed .mcp.json must not inline auth headers, which would disable OAuth", errors)
             unknown = set(noru) - {"type", "url"}
             require(not unknown, f".mcp.json noru server has non-standard keys {sorted(unknown)}; document auth in the client guides instead", errors)
+
+
+def validate_codex_packaging(errors: list[str]) -> None:
+    """packaging/codex/mcp.json replaces .mcp.json in the OpenAI portal ZIP (scripts/build_codex_zip.sh)."""
+    payload = load_json(ROOT / "packaging" / "codex" / "mcp.json", errors)
+    servers = payload.get("mcpServers")
+    noru = servers.get("noru") if isinstance(servers, dict) else None
+    require(isinstance(servers, dict) and list(servers) == ["noru"], "packaging/codex/mcp.json must declare exactly the noru server", errors)
+    if not isinstance(noru, dict):
+        return
+    require(noru.get("url") == "https://api.noru.tech/v1/mcp", "packaging/codex/mcp.json noru URL must be the production endpoint", errors)
+    require("headers" not in noru, "packaging/codex/mcp.json must not set headers; the OpenAI portal rejects them", errors)
+    ext = noru.get("extensions") if isinstance(noru.get("extensions"), dict) else {}
+    auth = ext.get("com.openai", {}).get("auth") if isinstance(ext.get("com.openai"), dict) else None
+    require(isinstance(auth, dict) and auth.get("type") == "oauth", "packaging/codex/mcp.json must declare OAuth (extensions.com.openai.auth.type = oauth)", errors)
+    if isinstance(auth, dict):
+        client = auth.get("client") if isinstance(auth.get("client"), dict) else {}
+        require(client.get("mode") in {"cimd", "dcr"}, "packaging/codex/mcp.json OAuth client mode must be cimd or dcr (no client secrets)", errors)
+        require("clientSecret" not in client and "clientId" not in client, "packaging/codex/mcp.json must not contain client credentials", errors)
 
 
 def validate_registry_server(errors: list[str]) -> None:
@@ -442,6 +487,7 @@ def main() -> int:
     validate_directory_policy(errors)
     validate_mcp(errors)
     validate_registry_server(errors)
+    validate_codex_packaging(errors)
     validate_cursor_metadata(errors)
     validate_gemini_extension(errors)
     validate_env_example(errors)

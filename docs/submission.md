@@ -45,16 +45,19 @@ Source: <https://claude.com/docs/plugins/submit>, pre-submission checklist at
 Source: <https://developers.openai.com/plugins/deploy/submission>.
 
 1. An organization admin grants Apps Management **Write** to the submitter.
-2. In the portal, choose **Create plugin** → **With MCP**. Upload a ZIP containing exactly the
-   `plugins/compliance-assistant/` folder.
+2. At platform.openai.com/plugins, choose **Upload new or existing plugin** and upload the ZIP. Build
+   it with `scripts/build_codex_zip.sh`, which packages only what Codex reads: `.codex-plugin/`,
+   `.mcp.json`, `assets/` and `skills/`.
 3. **Domain verification:** serve the portal's token as plain text at
    `https://api.noru.tech/.well-known/openai-apps-challenge` (or on a parent domain).
 4. **Auth:** OAuth only for public listing. The API-key path in the client guides is for manual
    setups and is not part of the submission.
-5. **Review test cases:** copy the eight cases from `evals/`. For each positive case, give the
-   prompt, the tools it should trigger and the expected behaviour. For each negative case, give the
-   prompt. Provide reviewer credentials for a demo Noru organization in the portal, never in the ZIP.
-6. **Demo recording:** a short video of the three starter prompts against a demo organization.
+5. **Review test cases:** already in `.codex-plugin/plugin.json` under
+   `extensions.com.openai.review` (5 positive, 3 negative), so the portal imports them from the ZIP.
+   Enter reviewer credentials for a demo Noru organization in **Review details**, never in the ZIP.
+   The account must work without MFA prompts or email codes.
+6. **Demo recording:** a short video of the three starter prompts against a demo organization. Add
+   its URL as `review.demo_recording_url` in the manifest, or enter it in **Review details**.
 7. Optional: `logoDark`, `composerIconDark` and `brandColorDark` for dark mode, plus release notes.
 
 ## Not covered yet
