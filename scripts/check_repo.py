@@ -389,6 +389,12 @@ def validate_registry_server(errors: list[str]) -> None:
     require(isinstance(description, str) and 1 <= len(description) <= 100, "server.json description must be 1-100 characters", errors)
     require(payload.get("version") == manifest.get("version"), "server.json version must match plugin manifest", errors)
     require("packages" not in payload, "server.json describes the remote server only and must not list packages", errors)
+    icons = payload.get("icons")
+    require(
+        isinstance(icons, list) and icons and all(isinstance(i, dict) and str(i.get("src", "")).startswith("https://") and i.get("mimeType") in {"image/png", "image/jpeg", "image/webp", "image/svg+xml"} for i in icons),
+        "server.json icons must be a non-empty list of https images with a mimeType (registry 2025-12-11 schema)",
+        errors,
+    )
 
     remotes = payload.get("remotes")
     require(isinstance(remotes, list) and len(remotes) == 1, "server.json must contain exactly one remote", errors)

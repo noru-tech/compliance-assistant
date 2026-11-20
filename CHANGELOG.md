@@ -14,6 +14,8 @@ All notable changes to this project are documented here. The format is based on
   the tightly cropped black-on-white favicon. `logo.png` is 1024 px and `composer-icon.png` is
   256 px. The source is `packaging/brand/signum-dark.svg`, with a size preview in
   `docs/icon-preview.png`.
+- `server.json` (MCP Registry) lists the server icon, `https://noru.tech/brand/noru-mcp-icon-512.png`,
+  the same one the Noru MCP server now advertises in its `serverInfo`.
 - Codex `onboardingSkill` moved from `interface` to `extensions.com.openai`, where the OpenAI plugin
   directory reads it.
 

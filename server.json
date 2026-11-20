@@ -5,6 +5,15 @@
   "description": "Noru compliance workspace: frameworks, controls, policies, evidence, risks, vendors and assets.",
   "version": "0.2.2",
   "websiteUrl": "https://noru.tech",
+  "icons": [
+    {
+      "src": "https://noru.tech/brand/noru-mcp-icon-512.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "512x512"
+      ]
+    }
+  ],
   "repository": {
     "url": "https://github.com/noru-tech/compliance-assistant",
     "source": "github"
