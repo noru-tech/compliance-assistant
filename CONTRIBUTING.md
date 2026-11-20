@@ -32,8 +32,10 @@ metadata, two shared skills, an eval suite, client docs, and security-focused se
 - `plugins/compliance-assistant/skills/compliance-assistant/SKILL.md` contains the shared assistant
   workflow. Detail lives in its `references/`; keep `SKILL.md` short.
 - `plugins/compliance-assistant/skills/compliance-assistant/references/tools.md` is the snapshot of
-  Noru MCP tools and scopes. When the server adds or renames tools, refresh it from
-  `getMcpCapabilities`. The checker fails if a skill mentions a `noru:tool` that is not listed there.
+  Noru MCP tools and scopes. When the server adds or renames tools, regenerate it from a Noru
+  checkout of the deployed commit, with dependencies installed:
+  `bun scripts/refresh-tools-reference.ts <path-to-noru>`. The checker fails if a skill mentions a
+  `noru:tool` that is not listed there.
 - `plugins/compliance-assistant/skills/noru-setup/` is the onboarding and connection-check skill.
 - Skill frontmatter follows the Agent Skills spec: only `name`, `description`, `license`,
   `compatibility`, `metadata` and `allowed-tools`. The version goes in `metadata.version`.

@@ -146,9 +146,11 @@ Use least-privilege scopes for the job:
 | Capability | Scopes |
 | --- | --- |
 | Core read-only guidance | `read:organization`, `read:frameworks`, `read:controls`, `read:policies`, `read:evidence`, `read:risks` |
-| Wider read context | `read:vendors`, `read:personnel`, `read:assets`, `read:datamaps`, `read:users`, `read:internal-audits`, `read:workflows` |
+| Wider read context | `read:vendors`, `read:personnel`, `read:assets`, `read:datamaps`, `read:users`, `read:internal-audits`, `read:external-audits`, `read:access-reviews`, `read:workflows`, `read:tickets` |
 | Compliance tasks and roadmaps | `write:compliance` |
-| Confirmed changes | Only the domain write scopes you need: `write:controls`, `write:policies`, `write:evidence`, `write:risks`, `write:vendors`, `write:personnel`, `write:assets`, `write:datamaps`, `write:internal-audits` |
+| Confirmed changes | Only the domain write scopes you need: `write:controls`, `write:policies`, `write:evidence`, `write:risks`, `write:vendors`, `write:personnel`, `write:assets`, `write:datamaps`, `write:internal-audits`, `write:external-audits`, `write:access-reviews`, `write:tickets` |
+| Supplier risk (`tprm`) | `read:vendors`, plus `write:vendors` for changes; needs supplier risk management enabled |
+| Trust center access | `read:trust-access`, plus `write:trust-access` to approve or revoke |
 | Admin integrations | `read:webhooks`, `write:webhooks`, `write:workflows`, `read:signals` |
 
 The full tool-to-scope map is in
@@ -156,9 +158,10 @@ The full tool-to-scope map is in
 
 ### Toolsets
 
-Noru groups its tools into toolsets: `core`, `frameworks`, `controls`, `policies`, `evidence`,
-`risks`, `vendors`, `personnel`, `assets`, `datamaps`, `internal-audits`, `compliance` and a few
-admin sets. `core` is always on. A smaller tool list helps the assistant pick the right tool. To
+Noru groups its 383 tools into 22 toolsets, including `core`, `frameworks`, `controls`,
+`policies`, `evidence`, `risks`, `vendors`, `tprm` (supplier risk), `personnel`, `datamaps`,
+`internal-audits`, `external-audits`, `access-reviews`, `trust-access`, `tickets`, `compliance` and a
+few admin sets. `core` is always on. A smaller tool list helps the assistant pick the right tool. To
 limit the connection to the toolsets you use, add them to the server URL in your client's MCP
 settings:
 

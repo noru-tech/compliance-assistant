@@ -45,9 +45,13 @@ data you can read.
 | "Is our setup sufficient?" / "Do we need X?" | `noru:checkGuidanceRequirements`, then `noru:readGuidanceContent` | [workflows.md#advice](references/workflows.md#advice) |
 | A roadmap, milestones or a target date | `noru:getFrameworkPlan`, then `noru:createCompliancePlan` on request | [workflows.md#roadmap](references/workflows.md#roadmap) |
 | Audit readiness | `noru:listInternalAudits`, `noru:getStatementOfApplicability`, `noru:verifyEvidenceIntegrity` | [workflows.md#audit-readiness](references/workflows.md#audit-readiness) |
+| An external audit in progress | `noru:listExternalAudits`, `noru:listExternalAuditRequests` | [workflows.md#external-audits](references/workflows.md#external-audits) |
+| Access reviews | `noru:listAccessReviews`, `noru:getAccessReviewCoverage` | [workflows.md#access-reviews](references/workflows.md#access-reviews) |
 | Policies | `noru:getOrganizationPolicies`, resource `noru://policies/review-queue`, `noru:listMissingPolicyAcknowledgements` | [workflows.md#policies](references/workflows.md#policies) |
 | Risks | `noru:getHighRiskItems`, `noru:getOrganizationRisks`, `noru:getRiskTreatments` | [workflows.md#risks](references/workflows.md#risks) |
 | Vendors | `noru:getOrganizationVendors`, `noru:getVendorDetails`, `noru:getVendorEvidence` | [workflows.md#vendors](references/workflows.md#vendors) |
+| Supplier risk, contracts, registers | `noru:getSupplierSummary`, `noru:listAssessments`, `noru:listContracts` | [workflows.md#supplier-risk](references/workflows.md#supplier-risk) |
+| Trust center requests | `noru:listTrustAccessRequests` | [workflows.md#trust-center-access](references/workflows.md#trust-center-access) |
 | Privacy / GDPR | `noru:getPrivacyOverview`, `noru:getRopa`, `noru:getRegulationCoverage` | [workflows.md#privacy](references/workflows.md#privacy) |
 | One specific control | `noru:getControlContext`, `noru:getControlStatus`, `noru:getControlImplementationBrief`, `noru:getEvidenceForControl` | [workflows.md#control-drill-down](references/workflows.md#control-drill-down) |
 | Their own tasks | `noru:getMyInbox`, `noru:listWorkflowTasks`, `noru:getMyTraining` | [workflows.md#my-work](references/workflows.md#my-work) |

@@ -18,6 +18,13 @@ All notable changes to this project are documented here. The format is based on
 - OpenAI review data in `.codex-plugin/plugin.json` (`extensions.com.openai.review`): 5 positive and
   3 negative test cases, mirroring the eval suite, plus a commerce declaration and release notes.
   The plugin portal imports these from the ZIP.
+- `references/tools.md` regenerated from the Noru source: 383 tools in 22 toolsets (was 222). New:
+  `tprm` (supplier risk: contracts, services, assessments, verdicts, findings, registers),
+  `external-audits`, `access-reviews`, `trust-access` and `tickets`. The scope bundles and README
+  table cover the new scopes, and `workflows.md` adds sections for external audits, access reviews,
+  supplier risk, trust center access and tickets.
+- `scripts/refresh-tools-reference.ts`: regenerates `tools.md` and the toolset table from a Noru
+  checkout, using the server's own scope and toolset resolvers.
 - `scripts/check_repo.py` checks the onboarding skill's location, that there are exactly 5 positive
   and 3 negative review cases, that every tool a case names is a real Noru tool, and that no
   credentials are in the package.
