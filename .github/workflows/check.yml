@@ -1,6 +1,7 @@
 # Runs the repository's stdlib-only checker (scripts/check_repo.py) on every pull request and on
 # main: marketplaces, plugin metadata, the MCP Registry server.json, Gemini and Cursor manifests,
-# MCP config, skill frontmatter and secret hygiene.
+# MCP config, skill frontmatter and secret hygiene. A second job runs Claude Code's own plugin
+# validator in strict mode against the plugin and the marketplace.
 name: check
 
 on:
@@ -26,3 +27,18 @@ jobs:
         with:
           persist-credentials: false
       - run: python3 scripts/check_repo.py
+
+  claude-plugin-validate:
+    name: claude plugin validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      # Pinned so a validator release cannot change the result of an unchanged pull request.
+      CLAUDE_CODE_VERSION: 2.1.329
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
+      - run: bunx "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" plugin validate --strict plugins/compliance-assistant
+      - run: bunx "@anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}" plugin validate --strict .claude-plugin/marketplace.json

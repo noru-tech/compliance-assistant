@@ -1,7 +1,7 @@
 # Contributing to compliance-assistant
 
 Thanks for improving `compliance-assistant`. This repo is intentionally small and public: plugin
-metadata, one shared skill, client docs, and security-focused setup examples.
+metadata, two shared skills, an eval suite, client docs, and security-focused setup examples.
 
 ## Ground Rules
 
@@ -29,7 +29,16 @@ metadata, one shared skill, client docs, and security-focused setup examples.
 - When you bump the plugin version, update every manifest that carries it. `scripts/check_repo.py`
   fails if they disagree.
 - `plugins/compliance-assistant/` contains the installable plugin payload.
-- `plugins/compliance-assistant/skills/compliance-assistant/SKILL.md` contains the shared assistant workflow.
+- `plugins/compliance-assistant/skills/compliance-assistant/SKILL.md` contains the shared assistant
+  workflow. Detail lives in its `references/`; keep `SKILL.md` short.
+- `plugins/compliance-assistant/skills/compliance-assistant/references/tools.md` is the snapshot of
+  Noru MCP tools and scopes. When the server adds or renames tools, refresh it from
+  `getMcpCapabilities`. The checker fails if a skill mentions a `noru:tool` that is not listed there.
+- `plugins/compliance-assistant/skills/noru-setup/` is the onboarding and connection-check skill.
+- Skill frontmatter follows the Agent Skills spec: only `name`, `description`, `license`,
+  `compatibility`, `metadata` and `allowed-tools`. The version goes in `metadata.version`.
+- Each skill has `agents/openai.yaml` with its Codex display metadata.
+- `plugins/compliance-assistant/evals/` holds `claude plugin eval` cases.
 - `clients/` contains setup docs for MCP clients.
 
 ## Development & Testing
@@ -42,8 +51,30 @@ python3 scripts/check_repo.py
 
 This validates the Codex marketplace, installable plugin metadata, Claude and Cursor marketplace
 metadata, the Gemini extension manifest, the MCP Registry `server.json`, MCP config, skill
-frontmatter, placeholder environment config, and basic secret hygiene. CI runs it on every pull
-request (`.github/workflows/check.yml`).
+frontmatter and links, placeholder environment config, and basic secret hygiene. CI runs it on every
+pull request (`.github/workflows/check.yml`), together with Claude Code's own validator:
+
+```bash
+bunx @anthropic-ai/claude-code@2.1.329 plugin validate --strict plugins/compliance-assistant
+bunx @anthropic-ai/claude-code@2.1.329 plugin validate --strict .claude-plugin/marketplace.json
+```
+
+### Evals
+
+The eval suite runs offline: `plugins/compliance-assistant/evals/mocks/noru/` holds fixed responses
+for a fictional organization, so no Noru sign-in is needed and no run can change a real workspace.
+It costs model usage (about $1 for one run of every case), so it is not part of CI. Run it after
+changing a skill:
+
+```bash
+cd plugins/compliance-assistant
+bunx @anthropic-ai/claude-code@2.1.329 plugin eval . --runs 1 --ablation none --no-publish
+```
+
+When a case starts using a Noru tool that has no mock, add `evals/mocks/noru/<tool>.md`. A tool with
+no mock is not available in the run.
+
+Results go to `evals/results/`, which git ignores.
 
 **Test policy:** a pull request that adds a manifest, a manifest field or any other behaviour the
 checker can verify must add the matching check to `scripts/check_repo.py` in the same pull request.

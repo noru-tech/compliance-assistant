@@ -69,8 +69,10 @@ Use `mcp-remote` when your client only supports stdio servers:
 After connecting, verify that your client can:
 
 1. List tools from server `noru`.
-2. Read `noru://frameworks/compliance-overview`.
-3. Use prompt `assessFrameworkGaps`.
+2. Call `getMcpCapabilities`. It returns the organization, granted scopes, the tools this
+   connection exposes, and which toolsets are active.
+3. Read `noru://frameworks/compliance-overview`.
 
-If any step fails with a forbidden or missing tool/resource error, check that the OAuth grant or API
-key has the required scopes.
+If a tool or resource is missing or forbidden, compare the scopes and toolsets in the
+`getMcpCapabilities` result with
+[the scope and toolset reference](../plugins/compliance-assistant/skills/compliance-assistant/references/scopes-and-toolsets.md).

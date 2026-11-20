@@ -27,46 +27,55 @@ codex plugin add compliance-assistant@compliance-assistant
 
 ## Authentication
 
-Plugin installation does not sign in to Noru or store credentials. Codex manages MCP authentication
-for the `noru` server outside the plugin payload. If Codex already has an authenticated `noru`
-connection, the installed skill can use it.
+The plugin includes the `noru` MCP server (`https://api.noru.tech/v1/mcp`). Installing doesn't sign
+you in to Noru or store any credentials.
 
-For a new connection, use OAuth if your Codex build supports OAuth for remote MCP servers. Otherwise,
-configure bearer authentication in your local Codex MCP settings with a Noru API key:
+### OAuth (recommended)
+
+```bash
+codex mcp login noru
+```
+
+Finish the sign-in in your browser, then start a new Codex session. When you first use the plugin,
+Codex runs its onboarding skill, `noru-setup`. You can also ask:
+
+```text
+Use $noru-setup to check my Noru connection.
+```
+
+### API key (headless or CI)
+
+Use this only when OAuth isn't possible. In your private `~/.codex/config.toml`, turn off the
+plugin's server and add your own that sends the key from an environment variable:
+
+```toml
+[plugins."compliance-assistant".mcp_servers.noru]
+enabled = false
+
+[mcp_servers.noru]
+url = "https://api.noru.tech/v1/mcp"
+bearer_token_env_var = "NORU_API_KEY"
+```
 
 ```bash
 export NORU_API_KEY="<your_noru_api_key>"
 ```
 
-The server name is:
-
-```text
-noru
-```
-
-The MCP endpoint is:
-
-```text
-https://api.noru.tech/v1/mcp
-```
-
-API-key setup uses the header:
-
-```text
-Authorization: Bearer <NORU_API_KEY>
-```
-
-Do not paste OAuth tokens or API keys into assistant chat. Do not commit local Codex configuration
+Don't paste OAuth tokens or API keys into assistant chat. Don't commit local Codex configuration
 files that contain resolved credentials.
 
-## First Prompt
+## First prompts
+
+The plugin card offers these as starter prompts:
 
 ```text
-Help me become compliant with SOC 2 using Noru.
+What should we do next for SOC 2?
+Where are our biggest ISO 27001 gaps?
+Are we ready for our audit? What would an auditor flag first?
 ```
 
-The assistant should discover organization context, enabled frameworks, and framework compliance
-overview before recommending an execution order.
+The assistant checks the connection and reads your organization, enabled frameworks and compliance
+overview before it recommends an order of work.
 
 ## Scopes
 
@@ -77,4 +86,5 @@ read:organization read:frameworks read:controls read:policies read:evidence read
 ```
 
 Add `write:compliance` when you want prioritized task suggestions or compliance roadmaps. Add domain
-write scopes only when you want the assistant to perform confirmed actions.
+write scopes only when you want the assistant to perform confirmed actions. The full map is in
+[the scope and toolset reference](../plugins/compliance-assistant/skills/compliance-assistant/references/scopes-and-toolsets.md).

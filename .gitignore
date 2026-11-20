@@ -40,3 +40,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.swp
+
+# Plugin eval runs
+plugins/compliance-assistant/evals/results/
