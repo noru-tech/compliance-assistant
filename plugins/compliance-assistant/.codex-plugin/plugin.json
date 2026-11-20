@@ -1,6 +1,6 @@
 {
   "name": "compliance-assistant",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Claude Code and Codex plugin that guides SOC 2, ISO 27001 and other framework work through Noru's MCP server. For Noru customers.",
   "author": {
     "name": "Noru",
@@ -13,29 +13,46 @@
   "keywords": [
     "noru",
     "compliance",
-    "mcp",
+    "soc2",
+    "iso27001",
+    "gdpr",
+    "grc",
+    "audit",
     "controls",
     "evidence",
-    "risk",
     "policies",
-    "audit"
+    "risk",
+    "vendor-risk",
+    "mcp"
   ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Noru Compliance Assistant",
-    "shortDescription": "Plan and progress compliance work with Noru MCP.",
-    "longDescription": "Noru Compliance Assistant guides customers through framework readiness using live organization, framework, control, policy, evidence, and risk context from Noru MCP.",
+    "shortDescription": "Compliance guidance from Noru",
+    "longDescription": "Noru Compliance Assistant guides SOC 2, ISO 27001, GDPR and other framework work using your live Noru data: what to do next, where the gaps are, whether a control or policy is sufficient, and how ready you are for audit. It reads your organization, frameworks, controls, policies, evidence, risks, vendors and privacy records through the Noru MCP server, and asks for your confirmation before it changes anything in Noru. Requires a Noru account.",
     "developerName": "Noru",
     "category": "Productivity",
     "capabilities": [
-      "Compliance sequencing",
-      "Framework gap analysis",
-      "Control and evidence guidance",
-      "Policy and risk review",
-      "Opt-in write actions"
+      "Framework next steps and sequencing",
+      "Gap analysis for SOC 2, ISO 27001 and GDPR",
+      "Control, policy and evidence sufficiency checks",
+      "Audit readiness review",
+      "Risk, vendor and privacy review",
+      "Confirmed write actions with impact preview"
     ],
     "websiteURL": "https://noru.tech",
-    "defaultPrompt": "Help me become compliant with SOC 2 using Noru."
+    "supportURL": "https://github.com/noru-tech/compliance-assistant/issues",
+    "privacyPolicyURL": "https://noru.tech/privacy-policy",
+    "termsOfServiceURL": "https://noru.tech/terms-and-conditions",
+    "defaultPrompt": [
+      "What should we do next for SOC 2?",
+      "Where are our biggest ISO 27001 gaps?",
+      "Are we ready for our audit? What would an auditor flag first?"
+    ],
+    "brandColor": "#111B1C",
+    "logo": "./assets/logo.png",
+    "composerIcon": "./assets/composer-icon.svg",
+    "onboardingSkill": "./skills/noru-setup/SKILL.md"
   }
 }
