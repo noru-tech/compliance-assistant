@@ -10,6 +10,10 @@ All notable changes to this project are documented here. The format is based on
 
 ### Changed
 
+- New plugin icons: the Noru signum in white with padding on the brand dark `#111B1C`, instead of
+  the tightly cropped black-on-white favicon. `logo.png` is 1024 px and `composer-icon.png` is
+  256 px. The source is `packaging/brand/signum-dark.svg`, with a size preview in
+  `docs/icon-preview.png`.
 - Codex `onboardingSkill` moved from `interface` to `extensions.com.openai`, where the OpenAI plugin
   directory reads it.
 

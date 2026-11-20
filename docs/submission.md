@@ -9,7 +9,7 @@ marketplace add`, `codex plugin marketplace add`) work without any of this.
 | Item | Where |
 | --- | --- |
 | Display name, description, keywords | `plugins/compliance-assistant/.claude-plugin/plugin.json`, `.codex-plugin/plugin.json` |
-| Icon / logo, composer icon | `plugins/compliance-assistant/assets/`: `logo.png` 512 px, `composer-icon.png` 192 px, both square PNGs |
+| Icon / logo, composer icon | `plugins/compliance-assistant/assets/`: `logo.png` 1024 px, `composer-icon.png` 256 px, both square PNGs (source: `packaging/brand/signum-dark.svg`) |
 | Website, documentation, support, privacy, terms URLs | both plugin manifests |
 | Starter prompts (at most 3, each at most 128 characters) | Codex `interface.defaultPrompt` |
 | Onboarding skill | `skills/noru-setup/` (Codex `interface.onboardingSkill`) |
