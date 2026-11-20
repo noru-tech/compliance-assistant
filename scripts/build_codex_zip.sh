@@ -3,17 +3,21 @@
 # It holds only what Codex reads, under a single compliance-assistant/ folder:
 # .codex-plugin/, .mcp.json, assets/ and skills/. The eval suite and the other
 # clients' manifests are left out.
+#
+# The ZIP's .mcp.json comes from packaging/codex/mcp.json, which declares OAuth
+# for the OpenAI portal (extensions.com.openai.auth). It is kept outside the
+# plugin folder because Claude Code and Anthropic's plugin directory reject
+# unknown keys in the plugin's own .mcp.json.
 set -eu
 root=$(cd "$(dirname "$0")/.." && pwd)
-version=$(sed -n 's/.*"version": "\([^"]*\)".*/\1/p' "$root/plugins/compliance-assistant/.codex-plugin/plugin.json" | head -1)
+plugin="$root/plugins/compliance-assistant"
+version=$(sed -n 's/.*"version": "\([^"]*\)".*/\1/p' "$plugin/.codex-plugin/plugin.json" | head -1)
 out="${1:-$root/dist/compliance-assistant-codex-$version.zip}"
-mkdir -p "$(dirname "$out")"
+stage=$(mktemp -d)
+trap 'rm -rf "$stage"' EXIT
+mkdir -p "$stage/compliance-assistant" "$(dirname "$out")"
+cp -R "$plugin/.codex-plugin" "$plugin/assets" "$plugin/skills" "$stage/compliance-assistant/"
+cp "$root/packaging/codex/mcp.json" "$stage/compliance-assistant/.mcp.json"
 rm -f "$out"
-cd "$root/plugins"
-zip -qrX "$out" \
-  compliance-assistant/.codex-plugin \
-  compliance-assistant/.mcp.json \
-  compliance-assistant/assets \
-  compliance-assistant/skills \
-  -x '*.DS_Store'
+(cd "$stage" && zip -qrX "$out" compliance-assistant -x '*.DS_Store')
 echo "$out"

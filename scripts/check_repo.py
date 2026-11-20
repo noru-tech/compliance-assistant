@@ -353,6 +353,25 @@ def validate_mcp(errors: list[str]) -> None:
             require(not unknown, f".mcp.json noru server has non-standard keys {sorted(unknown)}; document auth in the client guides instead", errors)
 
 
+def validate_codex_packaging(errors: list[str]) -> None:
+    """packaging/codex/mcp.json replaces .mcp.json in the OpenAI portal ZIP (scripts/build_codex_zip.sh)."""
+    payload = load_json(ROOT / "packaging" / "codex" / "mcp.json", errors)
+    servers = payload.get("mcpServers")
+    noru = servers.get("noru") if isinstance(servers, dict) else None
+    require(isinstance(servers, dict) and list(servers) == ["noru"], "packaging/codex/mcp.json must declare exactly the noru server", errors)
+    if not isinstance(noru, dict):
+        return
+    require(noru.get("url") == "https://api.noru.tech/v1/mcp", "packaging/codex/mcp.json noru URL must be the production endpoint", errors)
+    require("headers" not in noru, "packaging/codex/mcp.json must not set headers; the OpenAI portal rejects them", errors)
+    ext = noru.get("extensions") if isinstance(noru.get("extensions"), dict) else {}
+    auth = ext.get("com.openai", {}).get("auth") if isinstance(ext.get("com.openai"), dict) else None
+    require(isinstance(auth, dict) and auth.get("type") == "oauth", "packaging/codex/mcp.json must declare OAuth (extensions.com.openai.auth.type = oauth)", errors)
+    if isinstance(auth, dict):
+        client = auth.get("client") if isinstance(auth.get("client"), dict) else {}
+        require(client.get("mode") in {"cimd", "dcr"}, "packaging/codex/mcp.json OAuth client mode must be cimd or dcr (no client secrets)", errors)
+        require("clientSecret" not in client and "clientId" not in client, "packaging/codex/mcp.json must not contain client credentials", errors)
+
+
 def validate_registry_server(errors: list[str]) -> None:
     """Check server.json, the official MCP Registry entry for the remote server.
 
@@ -468,6 +487,7 @@ def main() -> int:
     validate_directory_policy(errors)
     validate_mcp(errors)
     validate_registry_server(errors)
+    validate_codex_packaging(errors)
     validate_cursor_metadata(errors)
     validate_gemini_extension(errors)
     validate_env_example(errors)

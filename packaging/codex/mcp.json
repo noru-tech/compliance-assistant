@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "noru": {
+      "type": "http",
+      "url": "https://api.noru.tech/v1/mcp",
+      "extensions": {
+        "com.openai": {
+          "auth": {
+            "type": "oauth",
+            "client": {
+              "mode": "cimd"
+            }
+          }
+        }
+      }
+    }
+  }
+}
