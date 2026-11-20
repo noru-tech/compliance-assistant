@@ -6,6 +6,22 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+## [0.2.2] - 2026-11-20
+
+### Changed
+
+- Codex `onboardingSkill` moved from `interface` to `extensions.com.openai`, where the OpenAI plugin
+  directory reads it.
+
+### Added
+
+- OpenAI review data in `.codex-plugin/plugin.json` (`extensions.com.openai.review`): 5 positive and
+  3 negative test cases, mirroring the eval suite, plus a commerce declaration and release notes.
+  The plugin portal imports these from the ZIP.
+- `scripts/check_repo.py` checks the onboarding skill's location, that there are exactly 5 positive
+  and 3 negative review cases, that every tool a case names is a real Noru tool, and that no
+  credentials are in the package.
+
 ## [0.2.1] - 2026-11-20
 
 ### Fixed
@@ -124,7 +140,8 @@ All notable changes to this project are documented here. The format is based on
 - Public repo hygiene files and placeholder-only environment example.
 - `scripts/check_repo.py` for stdlib-only repository, marketplace, plugin, and secret-hygiene checks.
 
-[Unreleased]: https://github.com/noru-tech/compliance-assistant/compare/v0.2.1...HEAD
+[Unreleased]: https://github.com/noru-tech/compliance-assistant/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/noru-tech/compliance-assistant/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/noru-tech/compliance-assistant/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/noru-tech/compliance-assistant/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/noru-tech/compliance-assistant/compare/v0.1.0...v0.1.1

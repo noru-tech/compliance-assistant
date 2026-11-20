@@ -151,8 +151,33 @@ def validate_codex_plugin(errors: list[str]) -> None:
             value = interface.get(field)
             if value is not None:
                 require(isinstance(value, str) and HEX_COLOR_RE.fullmatch(value) is not None, f"Codex interface.{field} must be a #RRGGBB color", errors)
-        onboarding = interface.get("onboardingSkill")
-        require(isinstance(onboarding, str) and (PLUGIN_ROOT / onboarding).is_file(), "Codex interface.onboardingSkill must point at an existing SKILL.md", errors)
+        require("onboardingSkill" not in interface, "Codex onboardingSkill belongs under extensions.com.openai, not interface", errors)
+
+    # Onboarding, review and publication data live under extensions.com.openai
+    # (developers.openai.com/plugins/deploy/submission, "Configure onboarding, review, and publication").
+    extensions = manifest.get("extensions")
+    openai = extensions.get("com.openai") if isinstance(extensions, dict) else None
+    require(isinstance(openai, dict), "Codex plugin must include extensions.com.openai", errors)
+    if not isinstance(openai, dict):
+        return
+    onboarding = openai.get("onboardingSkill")
+    require(isinstance(onboarding, str) and onboarding.startswith("./") and (PLUGIN_ROOT / onboarding).is_file(), "Codex extensions.com.openai.onboardingSkill must point at an existing SKILL.md", errors)
+    review = openai.get("review") if isinstance(openai.get("review"), dict) else {}
+    cases = review.get("test_cases") if isinstance(review.get("test_cases"), dict) else {}
+    positive, negative = cases.get("positive"), cases.get("negative")
+    require(isinstance(positive, list) and len(positive) == 5, "Codex review needs exactly 5 positive test cases", errors)
+    require(isinstance(negative, list) and len(negative) == 3, "Codex review needs exactly 3 negative test cases", errors)
+    known_tools: set[str] = set()
+    if TOOLS_REFERENCE.is_file():
+        known_tools = set(re.findall(r"`([a-z][A-Za-z]+)`", TOOLS_REFERENCE.read_text(encoding="utf-8")))
+    for case in positive if isinstance(positive, list) else []:
+        require(all(isinstance(case.get(k), str) and case[k] for k in ("description", "prompt", "tools_triggered", "expected_behavior")), "each positive review case needs description, prompt, tools_triggered and expected_behavior", errors)
+        for tool in (t.strip() for t in str(case.get("tools_triggered", "")).split(",")):
+            require(tool in known_tools, f"Codex review case names unknown tool {tool!r}", errors)
+    for case in negative if isinstance(negative, list) else []:
+        require(all(isinstance(case.get(k), str) and case[k] for k in ("description", "prompt")), "each negative review case needs description and prompt", errors)
+    for forbidden in ("test_credentials", "reviewer_instructions"):
+        require(forbidden not in review, f"Codex review must not include {forbidden}; enter reviewer access in the dashboard", errors)
 
 
 def validate_claude_metadata(errors: list[str]) -> None:

@@ -43,3 +43,6 @@ Thumbs.db
 
 # Plugin eval runs
 plugins/compliance-assistant/evals/results/
+
+# Built plugin packages
+dist/

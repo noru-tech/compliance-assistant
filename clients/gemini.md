@@ -18,7 +18,7 @@ Format source: `google-gemini/gemini-cli` `docs/extensions/reference.md`,
 gemini extensions install https://github.com/noru-tech/compliance-assistant
 ```
 
-To pin a tag, add `--ref v0.2.1`. Restart Gemini CLI after you install or update. To update later:
+To pin a tag, add `--ref v0.2.2`. Restart Gemini CLI after you install or update. To update later:
 
 ```bash
 gemini extensions update compliance-assistant
