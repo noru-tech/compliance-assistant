@@ -81,8 +81,8 @@
             {
               "description": "Roadmap request reads the current plan first",
               "prompt": "Build us a SOC 2 roadmap with a target date at the end of next quarter.",
-              "tools_triggered": "getFrameworkPlan, createCompliancePlan",
-              "expected_behavior": "Reads the current framework plan, confirms scope and the target date, and creates the plan only after the user agrees. Reports only what createCompliancePlan returned."
+              "tools_triggered": "getFrameworkPlan, setFrameworkPlanTargetDate",
+              "expected_behavior": "Reads the current framework plan, confirms scope and the target date, and sets the target date only after the user agrees. Reports only what setFrameworkPlanTargetDate returned."
             },
             {
               "description": "Write request stops for explicit confirmation",

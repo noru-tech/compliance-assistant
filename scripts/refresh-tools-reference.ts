@@ -31,13 +31,17 @@ const { toolsetForTool, TOOLSET_DESCRIPTIONS, TOOLSET_NAMES } = await import(
 )
 
 type Row = { name: string; scope: string; toolset: string }
-const rows: Row[] = Object.values(tools as Record<string, { name: string; segment?: string }>).map(
-  (tool) => {
+// A tool with `replacedBy` is never in tools/list (it only answers calls from
+// older clients), so it is left out of the reference.
+const rows: Row[] = Object.values(
+  tools as Record<string, { name: string; segment?: string; replacedBy?: string }>
+)
+  .filter((tool) => !tool.replacedBy)
+  .map((tool) => {
     const scope = determineRequiredScope(tool.name)
     if (!scope) throw new Error(`no scope resolves for ${tool.name}`)
     return { name: tool.name, scope, toolset: toolsetForTool(tool.name, scope, tool.segment === "tprm") }
-  }
-)
+  })
 
 const RESOURCES: [string, string][] = [
   ["noru://frameworks/compliance-overview", "Aggregated compliance metrics for each enabled framework"],

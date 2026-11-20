@@ -190,7 +190,7 @@ It reads your organization's real Noru context first instead of guessing:
    (`checkGuidanceRequirements`, `readGuidanceContent`). Keep policy (intent), evidence (observed
    operation) and saved answers (reported practice) apart.
 4. For "what next?", read the framework plan and pending controls, and put blockers first.
-5. Create tasks (`suggestComplianceTasks`) or a roadmap (`createCompliancePlan`) only when you ask
+5. Create tasks (`suggestComplianceTasks`) or a roadmap target date (`setFrameworkPlanTargetDate`) only when you ask
    for them.
 6. Drill into controls, evidence, policies, risks, vendors or privacy records where they block the
    next step.

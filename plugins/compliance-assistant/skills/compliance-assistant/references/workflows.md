@@ -69,9 +69,9 @@ Only when the user asks for a roadmap, timeline, milestones or a target date.
 
 1. Read the current plan with `noru:getFrameworkPlan`.
 2. Confirm the target date and scope with the user.
-3. `noru:createCompliancePlan`, which needs `write:compliance`. Changing plan steps, targets or leads
-   (`noru:setFrameworkPlanStep`, `noru:updateFrameworkPlan`, `noru:setWorkstreamLead`) also needs
-   the user's yes.
+3. `noru:setFrameworkPlanTargetDate` sets the target date and needs `write:compliance`. Changing
+   plan steps, targets or leads (`noru:setFrameworkPlanStep`, `noru:updateFrameworkPlan`,
+   `noru:setWorkstreamLead`) also needs the user's yes.
 
 ## Audit readiness
 

@@ -228,7 +228,7 @@ Compliance plans and suggested tasks, marking framework plan steps and setting t
 
 | Scope | Tools |
 | --- | --- |
-| `write:compliance` | `answerWorkstreamQuestions`, `setWorkstreamTask`, `setWorkstreamLead`, `setFrameworkPlanStep`, `updateFrameworkPlan`, `setTrustServicesCategories`, `suggestComplianceTasks`, `createCompliancePlan` |
+| `write:compliance` | `answerWorkstreamQuestions`, `setWorkstreamTask`, `setWorkstreamLead`, `setFrameworkPlanStep`, `updateFrameworkPlan`, `setTrustServicesCategories`, `suggestComplianceTasks`, `setFrameworkPlanTargetDate` |
 
 ## Resources
 

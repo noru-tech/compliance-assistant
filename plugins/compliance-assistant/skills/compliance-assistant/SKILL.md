@@ -43,7 +43,7 @@ data you can read.
 | What to do next, or the right order | `noru:listFrameworkPlans`, `noru:getFrameworkPlan`, `noru:getPendingControls` | [workflows.md#sequencing](references/workflows.md#sequencing) |
 | Gap analysis for a framework | `noru:getComplianceOverview`, `noru:getOrganizationControls`, `noru:getStatementOfApplicability` | [workflows.md#gap-analysis](references/workflows.md#gap-analysis) |
 | "Is our setup sufficient?" / "Do we need X?" | `noru:checkGuidanceRequirements`, then `noru:readGuidanceContent` | [workflows.md#advice](references/workflows.md#advice) |
-| A roadmap, milestones or a target date | `noru:getFrameworkPlan`, then `noru:createCompliancePlan` on request | [workflows.md#roadmap](references/workflows.md#roadmap) |
+| A roadmap, milestones or a target date | `noru:getFrameworkPlan`, then `noru:setFrameworkPlanTargetDate` on request | [workflows.md#roadmap](references/workflows.md#roadmap) |
 | Audit readiness | `noru:listInternalAudits`, `noru:getStatementOfApplicability`, `noru:verifyEvidenceIntegrity` | [workflows.md#audit-readiness](references/workflows.md#audit-readiness) |
 | An external audit in progress | `noru:listExternalAudits`, `noru:listExternalAuditRequests` | [workflows.md#external-audits](references/workflows.md#external-audits) |
 | Access reviews | `noru:listAccessReviews`, `noru:getAccessReviewCoverage` | [workflows.md#access-reviews](references/workflows.md#access-reviews) |
@@ -83,7 +83,7 @@ Every create, update, link, unlink, delete or send changes the customer's Noru w
 4. Report success only when the tool returns a created or updated result. If it returns an error,
    quote it and say nothing changed.
 
-`noru:suggestComplianceTasks` and `noru:createCompliancePlan` also write (`write:compliance`). Call
+`noru:suggestComplianceTasks` and `noru:setFrameworkPlanTargetDate` also write (`write:compliance`). Call
 them only when the user asked for tasks or a roadmap.
 
 ## 5. Answer style
