@@ -35,10 +35,10 @@ jobs:
     permissions:
       contents: read
     env:
-      MCP_PUBLISHER_VERSION: "1.8.1"
-      # sha256 of mcp-publisher_linux_amd64.tar.gz from registry_1.8.1_checksums.txt (release v1.8.1,
-      # tag commit f52dc8525a441a3abf5fedc9912152d95af5aab1).
-      MCP_PUBLISHER_SHA256: a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc
+      MCP_PUBLISHER_VERSION: "1.8.21"
+      # sha256 of mcp-publisher_linux_amd64.tar.gz from registry_1.8.21_checksums.txt (release v1.8.21,
+      # tag commit 7e39f2d4fc2c67cf5295fe3ae04fe23d52e85c99).
+      MCP_PUBLISHER_SHA256: ca2e5b24e8fc2718be4bb58ab086b39b7d60c79840c24b2057bc3f36d6ab2a59
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
