@@ -79,7 +79,7 @@ reads it either way.
 1. Check that `version` in `server.json` has never been published. Each published version is
    immutable and must be unique.
 2. Go to **Actions → publish-mcp-registry → Run workflow**, choose branch `main`, and run it.
-3. The job installs `mcp-publisher` 1.8.1 and verifies its SHA-256. It then validates `server.json`,
+3. The job installs `mcp-publisher` 1.8.21 and verifies its SHA-256. It then validates `server.json`,
    signs in with DNS for `noru.tech`, publishes, and logs out.
 
 To run the same steps locally instead:
